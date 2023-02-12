@@ -39,11 +39,8 @@ dependencies. You will also need PHP (obviously) and at least ``php-mysql`` or
 
     ```sh
     $ cd app/webroot
-    $ CAKEPHP_DEBUG=1 php -S localhost:8080
+    $ DEBUG=1 ./bin/cake server
     ```
-
-_Note: you may have some issues to display the cover arts using the built-in PHP
-server._
 
 [sonerezh.bzh/demo]: https://www.sonerezh.bzh/demo/login
 [Twitter]: https://twitter.com/snrzh

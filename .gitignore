@@ -1,23 +1,18 @@
 # CakePHP and Sonerezh ignored files
 # ----------------------------------
-/app/Config/ciphers.php
-/app/Config/database.php
-/app/Config/email.php
-/app/tmp/tests
-/app/tmp/cache
-/app/tmp/logs
-/app/Vendor/
-/lib/Cake/Console/Templates/skel/tmp/
-/plugins
-/vendors
+/config/app_config.php
+/config/email.php
+/vendor
+/tmp
+/logs
 /build
 /dist
 /tags
 *.mo
 
-/app/webroot/img/thumbnails/
-/app/webroot/img/resized/
-/app/webroot/img/avatars/
+/webroot/img/thumbnails/
+/webroot/img/resized/
+/webroot/img/avatars/
 /app/tmp/*.ogg
 /app/tmp/*.mp3
 

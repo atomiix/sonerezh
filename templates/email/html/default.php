@@ -11,6 +11,12 @@
  * @link          https://cakephp.org CakePHP(tm) Project
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
+ * @var \Cake\View\View $this
+ * @var string $content
  */
 
-require 'webroot' . DIRECTORY_SEPARATOR . 'index.php';
+$lines = explode("\n", $content);
+
+foreach ($lines as $line) :
+    echo '<p> ' . $line . "</p>\n";
+endforeach;

@@ -1,0 +1,79 @@
+<?php $this->start('script'); ?>
+<?php echo $this->fetch('script'); ?>
+<script>
+    $(function() {
+        $('#role').selecter({
+            label: "<?php echo __('Select a role'); ?>"
+        });
+    });
+</script>
+<?php $this->end(); ?>
+<div class="col-xs-12">
+    <h3>
+        <?php if ($user->id === $this->Identity->get('id')) {
+            echo __('Edit your account');
+        } else {
+            echo __('Edit a user');
+        } ?>
+    </h3>
+    <hr />
+
+    <?php echo $this->Form->create($user, array('type' => 'file')); ?>
+
+    <div class="row">
+        <div class="col-md-7 col-xs-12">
+            <?php
+            echo $this->Form->control('id', array('type' => 'hidden'));
+            echo $this->Form->control('email', array(
+                'placeholder' => __('Enter an email'),
+                'after' => '<span class="help-block">'.__('We also use email for avatar detection if no avatar is uploaded.').'</span>'
+            ));
+            echo $this->Form->control('password', array('placeholder' => __('Choose a password'), 'label' => __('New password'), 'required' => false, 'value' => ''));
+            echo $this->Form->control('confirm_password', array('type' => 'password', 'placeholder' => __('Confirm new password'), 'label' => __('Confirm new password'), 'required' => false, 'value' => ''));
+            if ($this->Identity->get('role') === 'admin' && $this->Identity->get('id') !== $user->id) {
+                echo $this->Form->control('role', array(
+                    'options'   => array('admin' => __('Administrator'), 'listener' => __('Listener')),
+                    'label'     => __('Select a role')
+                ));
+            }
+            ?>
+        </div>
+
+        <div class="col-md-5 col-xs-12">
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="avatar-container">
+
+                            <?php echo $this->Html->image($this->Image->avatar($user, 188)); ?>
+
+                            <?php if (!empty($user->avatar)): ?>
+                                <div class="avatar-remover avatar-selector">
+                                    <?php echo $this->Html->link('
+                                        <div class="avatar-remover avatar-remover-icon">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </div>
+                                        <div class="avatar-remover avatar-selector-label">
+                                            '.__('Remove Avatar').'
+                                        </div>',
+                                        array('action' => 'deleteAvatar', $user->id),
+                                        array('class' => 'avatar-remover avatar-remover-link', 'escape' => false, 'confirm' => __('You avatar will be removed, are you sure?')),
+									); ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <?php echo __('You can upload an avatar here or change it at {0}', '<a href="https://gravatar.com" target="_blank">gravatar.com</a>'); ?>
+                        <hr />
+                        <?php echo $this->Form->control('avatar_file', array('type' => 'file', 'required' => false, 'label' => false, 'style' => 'max-width: 100%;')); ?>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <?php echo $this->Form->submit(__('Save Changes'), array('class' => 'btn btn-success pull-right')); ?>
+            </div>
+        </div>
+    </div>
+    <?php echo $this->Form->end(); ?>
+</div>

@@ -1,0 +1,988 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2023-02-12 04:00+0000\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ./src/Controller/InstallersController.php:50
+msgid "PHP GD is available and loaded."
+msgstr "PHP GD est installé !"
+
+#: ./src/Controller/InstallersController.php:52
+msgid "PHP GD is missing."
+msgstr "PHP GD n'est pas installé."
+
+#: ./src/Controller/InstallersController.php:63
+msgid "libav-tools (avconv) or ffmpeg is installed!"
+msgstr "libav-tools (avconv) ou ffmpeg est installé !"
+
+#: ./src/Controller/InstallersController.php:65
+msgid "libav-tools (avconv) or ffmpeg is missing. Sonerezh will not be able to convert your tracks."
+msgstr "libav-tools (avconv) ou ffmpeg n'est pas installé. Sonerezh ne pourra pas convertir vos musiques."
+
+#: ./src/Controller/InstallersController.php:73
+msgid "At least one PDO driver must be installed to run Sonerezh (mysql, pgsql or sqlite)"
+msgstr "Sonerezh requiert au moins un pilote PDO pour fonctionner (mysql, pgsql ou sqlite)"
+
+#: ./src/Controller/InstallersController.php:78
+msgid "The {0} driver is installed."
+msgstr "Le pilote {0} est installé."
+
+#: ./src/Controller/InstallersController.php:93
+msgid "The {0} driver is required if you want to use Sonerezh with {1}"
+msgstr "Le pilote {0} est requis si vous souhaitez utiliser Sonerezh avec {1}"
+
+#: ./src/Controller/InstallersController.php:101
+msgid "{0} is writable"
+msgstr "{0} est accessible en écriture"
+
+#: ./src/Controller/InstallersController.php:103
+msgid "{0} is not writable"
+msgstr "{0} n'est pas accessible en écriture"
+
+#: ./src/Controller/InstallersController.php:126
+msgid "Wrong datasource."
+msgstr "Mauvaise source de données (wrong datasource)."
+
+#: ./src/Controller/InstallersController.php:136
+msgid "Unable to create the SQlite database file."
+msgstr "Impossible de créer le fichier SQlite."
+
+#: ./src/Controller/InstallersController.php:140
+msgid "This is not a regular file: {0}"
+msgstr "Ceci n'est pas un fichier : {0}"
+
+#: ./src/Controller/InstallersController.php:156
+msgid "Unable to write {0}"
+msgstr "Impossible d'écrire {0}"
+
+#: ./src/Controller/InstallersController.php:166
+msgid "Could not connect to database"
+msgstr "Connexion à la base de données impossible"
+
+#: ./src/Controller/InstallersController.php:202
+msgid "Unable to save your data."
+msgstr "Impossible de sauvegarder vos données."
+
+#: ./src/Controller/InstallersController.php:207
+msgid "Installation successful!"
+msgstr "Installation réussie !"
+
+#: ./src/Controller/PlaylistMembershipsController.php:25
+#: ./src/Controller/PlaylistMembershipsController.php:35
+msgid "You must specify a valid playlist"
+msgstr "Vous devez spécifier une liste de lecture valide"
+
+#: ./src/Controller/PlaylistMembershipsController.php:93
+msgid "Song successfully added to playlist"
+msgstr "Piste ajoutée à la liste de lecture"
+
+#: ./src/Controller/PlaylistMembershipsController.php:95
+msgid "Unable to add the song"
+msgstr "Impossible d'ajouter la piste"
+
+#: ./src/Controller/PlaylistMembershipsController.php:119
+msgid "Song successfully removed from playlist"
+msgstr "Piste supprimée de la liste de lecture"
+
+#: ./src/Controller/PlaylistsController.php:70
+msgid "Playlist created: {0}"
+msgstr "Liste de lecture créé : {0}"
+
+#: ./src/Controller/PlaylistsController.php:72
+msgid "Unable to create the playlist: {0}"
+msgstr "Impossible de créer la liste de lecture : {0}"
+
+#: ./src/Controller/PlaylistsController.php:87
+#: ./src/Controller/PlaylistsController.php:93
+msgid "Invalid playlist ID"
+msgstr "Identifiant de liste de lecture invalide"
+
+#: ./src/Controller/PlaylistsController.php:99
+msgid "Playlist renamed: {0}"
+msgstr "Liste de lecture renommée : {0}"
+
+#: ./src/Controller/PlaylistsController.php:101
+msgid "Unable to rename the playlist: {0}"
+msgstr "Impossible de renommer la liste de lecture : {0}"
+
+#: ./src/Controller/PlaylistsController.php:124
+msgid "Playlist deleted: {0}"
+msgstr "Liste de lecture supprimée : {0}"
+
+#: ./src/Controller/PlaylistsController.php:126
+msgid "Unable to delete the playlist: {0}"
+msgstr "Impossible de supprimer la liste de lecture : {0}"
+
+#: ./src/Controller/SettingsController.php:33
+msgid "Settings saved!"
+msgstr "Préférences enregistrées !"
+
+#: ./src/Controller/SettingsController.php:35
+msgid "Unable to save settings!"
+msgstr "Impossible d'enregistrer les préférences !"
+
+#: ./src/Controller/SettingsController.php:117
+msgid "Yeah! Cache cleared!"
+msgstr "Yeah ! Cache nettoyé !"
+
+#: ./src/Controller/SettingsController.php:147
+msgid "All entries have been deleted!"
+msgstr "Toutes les entrées ont été supprimées !"
+
+#: ./src/Controller/SettingsController.php:150
+msgid "Unable to clean the database!"
+msgstr "Impossible de nettoyer la base de donnée !"
+
+#: ./src/Controller/SongsController.php:45
+msgid "Please define a root path."
+msgstr "Veuillez renseigner l'emplacement de la bibliothèque."
+
+#: ./src/Controller/SongsController.php:110
+msgid "The import process is already running via another client or the CLI."
+msgstr "Le processus d'import fonctionne déjà via un autre client ou la CLI"
+
+#: ./src/Controller/SongsController.php:136
+msgid "Unable to save the song metadata to the database"
+msgstr "Impossible de sauvegarder les métadonnées de la chanson dans la base de données"
+
+#: ./src/Controller/SongsController.php:162
+msgid "Unable to update the song metadata in the database"
+msgstr "Impossible de mettre à jour les métadonnées de la chanson dans la base de données"
+
+#: ./src/Controller/SongsController.php:197
+msgid "Unable to delete song from the database"
+msgstr "Impossible de supprimer la chanson de la base de données"
+
+#: ./src/Controller/SongsController.php:354
+#: ./src/Controller/SongsController.php:459
+#: ./src/Controller/SongsController.php:502
+msgid "Oops! The database is empty..."
+msgstr "Oups ! La base de données est vide..."
+
+#: ./src/Controller/SongsController.php:583
+msgid "Oops! No results."
+msgstr "Oups ! Pas de résultat."
+
+#: ./src/Controller/UsersController.php:58
+msgid "User created: {0}"
+msgstr "Utilisateur créé : {0}"
+
+#: ./src/Controller/UsersController.php:60
+msgid "Unable to create a user. Make sure its email is not already used and his password is at least 8 characters long."
+msgstr "Impossible de créer l'utilisateur. Assurez-vous que cet email ne soit pas déjà utilisé et que son mot de passe fasse au moins 8 caractères."
+
+#: ./src/Controller/UsersController.php:75
+msgid "User updated: {0}"
+msgstr "Utilisateur mis à jour : {0}"
+
+#: ./src/Controller/UsersController.php:77
+#: ./src/Controller/UsersController.php:109
+#: ./src/Model/Table/SettingsTable.php:20
+#: ./src/Model/Table/SettingsTable.php:26
+msgid "Something went wrong!"
+msgstr "Une erreur est survenue !"
+
+#: ./src/Controller/UsersController.php:93
+msgid "User deleted: {0}"
+msgstr "Utilisateur supprimé : {0}"
+
+#: ./src/Controller/UsersController.php:107
+msgid "Avatar has been successfully removed!"
+msgstr "Avatar supprimé avec succès !"
+
+#: ./src/Controller/UsersController.php:123
+msgid "Wrong credentials!"
+msgstr "Identifiants incorrects !"
+
+#: ./src/Controller/UsersController.php:149
+#: ./src/Controller/UsersController.php:218
+msgid "Unable to find your account."
+msgstr "Impossible de retrouver votre compte."
+
+#: ./src/Controller/UsersController.php:170
+msgid "Email successfully sent."
+msgstr "Email envoyé avec succès."
+
+#: ./src/Controller/UsersController.php:172
+msgid "Unable to generate a token."
+msgstr "Impossible de générer un jeton."
+
+#: ./src/Controller/UsersController.php:185
+msgid "You need to provide a token."
+msgstr "Vous devez fournir un jeton."
+
+#: ./src/Controller/UsersController.php:193
+msgid "Unable to decode your token."
+msgstr "Impossible de décoder votre jeton."
+
+#: ./src/Controller/UsersController.php:200
+msgid "Unable to read your token."
+msgstr "Impossible de lire vote jeton."
+
+#: ./src/Controller/UsersController.php:210
+msgid "The token has expired."
+msgstr "Le jeton a expiré."
+
+#: ./src/Controller/UsersController.php:221
+msgid "Wrong token."
+msgstr "Jeton erroné."
+
+#: ./src/Controller/UsersController.php:230
+msgid "Your password has been updated."
+msgstr "Votre mot de passe a été mis à jour."
+
+#: ./src/Controller/UsersController.php:233
+msgid "Unable to update your password."
+msgstr "Impossible de mettre à jour votre mot de passe."
+
+#: ./src/Event/UsersEventListener.php:29
+msgid "Welcome on Sonerezh!"
+msgstr "Bienvenue sur Sonerezh !"
+
+#: ./src/Event/UsersEventListener.php:48
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié ?"
+
+#: ./src/Middleware/InstallationMiddleware.php:37
+msgid "Sonerezh is already installed. Remove or rename config/app_config.php to run the installation again."
+msgstr "Sonerezh est déjà installée. Supprimez ou renommez config/app_config.php pour recommencer l'installation."
+
+#: ./src/Model/Table/PlaylistsTable.php:19
+msgid "The playlist must have a title"
+msgstr "La liste de lecture doit avoir un titre"
+
+#: ./src/Model/Table/RootpathsTable.php:17
+msgid "The music library's directory does not exist."
+msgstr "Le dossier de l'audiothèque n'existe pas."
+
+#: ./src/Model/Table/RootpathsTable.php:20
+msgid "The music library's directory is not readable."
+msgstr "Le dossier de l'audiothèque n'est pas accessible en lecture."
+
+#: ./src/Model/Table/SettingsTable.php:21
+msgid "Wrong conversion destination!"
+msgstr "Mauvais format de conversion !"
+
+#: ./src/Model/Table/SettingsTable.php:24
+msgid "Wrong conversion destination! Make sure you are not trying to convert MP3 to MP3, or OGG to OGG."
+msgstr "Mauvais format de conversion ! Peut-être essayez-vous de convertir du MP3 vers du MP3 ?"
+
+#: ./src/Model/Table/UsersTable.php:22
+msgid "Login must be a valid email."
+msgstr "L'identifiant doit être une adresse email valide."
+
+#: ./src/Model/Table/UsersTable.php:23
+#: ./src/Model/Table/UsersTable.php:24
+msgid "Password must be at least 8 characters long."
+msgstr "Le mot de passe doit contenir au moins 8 caractères."
+
+#: ./src/Model/Table/UsersTable.php:27
+msgid "Wrong confirmation password."
+msgstr "Mauvais mot de passe de confirmation"
+
+#: ./src/Model/Table/UsersTable.php:32
+msgid "Something went wrong with the upload."
+msgstr "Une erreur est survenue lors de l'envoi."
+
+#: ./src/Model/Table/UsersTable.php:37
+msgid "Your avatar must be in a correct format (JPEG, PNG, GIF)."
+msgstr "Votre avatar doit être au format JPEG, PNG ou GIF."
+
+#: ./src/Model/Table/UsersTable.php:44
+msgid "Login already used."
+msgstr "Pseudo déjà utilisé."
+
+#: ./src/Model/Table/UsersTable.php:47
+msgid "Sonerezh needs at least one administrator. You can not change your own privileges."
+msgstr "Sonerezh a besoin d'au moins un administrateur. Vous ne pouvez pas changer vos privilèges."
+
+#: ./templates/Installers/index.php:15
+msgid "Select a database type"
+msgstr "Sélectionnez un type de base de données"
+
+#: ./templates/Installers/index.php:30
+msgid "Sonerezh"
+msgstr "Sonerezh"
+
+#: ./templates/Installers/index.php:33
+msgid "Welcome on the Sonerezh's installation page. Just fill in the information below and you'll be on your way to listening to your favorite songs!"
+msgstr "Bienvenue sur la page d'installation de Sonerezh. Remplissez juste les informations ci-dessous et vous pourrez écouter vos musiques préférées !"
+
+#: ./templates/Installers/index.php:36
+msgid "Requirements"
+msgstr "Prérequis"
+
+#: ./templates/Installers/index.php:47
+msgid "Database configuration"
+msgstr "Configuration de la base de donnée"
+
+#: ./templates/Installers/index.php:51
+msgid "Please provide the following information to allow Sonerezh to access its database."
+msgstr "Veuiller renseigner les informations suivantes pour permettre à Sonerezh d'accéder à sa base de données."
+
+#: ./templates/Installers/index.php:51
+msgid "Note that if you are reinstalling Sonerezh, all your previous data will be lost."
+msgstr "Si vous réinstaller Sonerezh, toutes vos données précédentes seront perdues."
+
+#: ./templates/Installers/index.php:63
+msgid "Database type"
+msgstr "Type de base de données"
+
+#: ./templates/Installers/index.php:69
+msgid "You can specify a non standard port if needed (127.0.0.1:1234)"
+msgstr "Vous pouvez spécifier un port si besoin (127.0.0.1:1234)"
+
+#: ./templates/Installers/index.php:73
+msgid "Database name"
+msgstr "Nom de la base de données"
+
+#: ./templates/Installers/index.php:77
+msgid "Database user login"
+msgstr "Utilisateur de la base de données"
+
+#: ./templates/Installers/index.php:78
+msgid "Database user password"
+msgstr "Mot de passe de l'utilisateur de la base de données"
+
+#: ./templates/Installers/index.php:79
+msgid "Leave empty if none"
+msgstr "Laisser vide si aucun"
+
+#: ./templates/Installers/index.php:79
+msgid "Prefix (optional)"
+msgstr "Préfixe (optionnel)"
+
+#: ./templates/Installers/index.php:87
+msgid "Information needed"
+msgstr "Informations requises"
+
+#: ./templates/Installers/index.php:91
+msgid "Please provide the following information. Don't worry, you can always change these settings later."
+msgstr "Veuillez renseigner les informations suivantes. Vous pourrez toujours les changer plus tard."
+
+#: ./templates/Installers/index.php:98
+#: ./templates/Users/login.php:7
+#: ./templates/Users/reset_password.php:10
+#: ./templates/Users/reset_password.php:11
+msgid "Password"
+msgstr "Mot de passe"
+
+#: ./templates/Installers/index.php:98
+msgid "Password (twice)"
+msgstr "Mot de passe (deux fois)"
+
+#: ./templates/Installers/index.php:99
+msgid "Confirm your password"
+msgstr "Confirmez votre mot de passe"
+
+#: ./templates/PlaylistMemberships/add.php:13
+#: ./templates/element/add_to_playlist.php:6
+msgid "Select a playlist"
+msgstr "Sélectionner une liste de lecture"
+
+#: ./templates/Playlists/index.php:25
+#: ./templates/element/admin_navbar.php:4
+#: ./templates/element/default_navbar.php:4
+msgid "Playlists"
+msgstr "Listes de lecture"
+
+#: ./templates/Playlists/index.php:55
+msgid "Rename"
+msgstr "Renommer"
+
+#: ./templates/Playlists/index.php:62
+#: ./templates/Users/index.php:51
+msgid "Are you sure?"
+msgstr "Etes-vous sûr ?"
+
+#: ./templates/Playlists/index.php:72
+msgid "You don't have playlists yet."
+msgstr "Vous n'avez pas encore de liste de lecture."
+
+#: ./templates/Playlists/index.php:84
+msgid "Play the playlist"
+msgstr "Lire la liste"
+
+#: ./templates/Playlists/index.php:85
+msgid "Shuffle this playlist"
+msgstr "Mélanger cette liste"
+
+#: ./templates/Playlists/index.php:87
+#: ./templates/Songs/album.php:10
+#: ./templates/element/add_menu.php:1
+#: ./templates/element/artists_view.php:23
+#: ./templates/element/artists_view.php:63
+msgid "Other actions"
+msgstr "Autres actions"
+
+#: ./templates/Playlists/index.php:89
+#: ./templates/Songs/album.php:12
+#: ./templates/element/add_menu.php:3
+#: ./templates/element/artists_view.php:25
+#: ./templates/element/artists_view.php:65
+msgid "Play Next"
+msgstr "Lire après"
+
+#: ./templates/Playlists/index.php:90
+#: ./templates/Songs/album.php:13
+#: ./templates/element/add_menu.php:4
+#: ./templates/element/artists_view.php:26
+#: ./templates/element/artists_view.php:66
+msgid "Add to Up Next"
+msgstr "Ajouter à la file d'attente"
+
+#: ./templates/Playlists/index.php:99
+msgid "This playlist is empty :("
+msgstr "Cette liste de lecture est vide :("
+
+#: ./templates/Playlists/index.php:106
+#: ./templates/Songs/index.php:7
+msgid "Song Title"
+msgstr "Titre de la piste"
+
+#: ./templates/Playlists/index.php:107
+#: ./templates/Songs/index.php:8
+msgid "Artist"
+msgstr "Artiste"
+
+#: ./templates/Playlists/index.php:108
+#: ./templates/Songs/index.php:9
+msgid "Album"
+msgstr "Album"
+
+#: ./templates/Playlists/index.php:109
+#: ./templates/Songs/index.php:10
+msgid "Duration"
+msgstr "Durée"
+
+#: ./templates/Playlists/index.php:123
+#: ./templates/element/add_menu.php:1
+#: ./templates/layout/default.php:35
+msgid "Play"
+msgstr "Lire"
+
+#: ./templates/Playlists/index.php:123
+#: ./templates/element/add_menu.php:1
+#: ./templates/layout/default.php:35
+msgid "Pause"
+msgstr "Pause"
+
+#: ./templates/Playlists/index.php:125
+#: ./templates/Playlists/index.php:127
+msgid "Remove"
+msgstr "Supprimer"
+
+#: ./templates/Playlists/index.php:127
+msgid "from the playlist?"
+msgstr "de la liste de lecture ?"
+
+#: ./templates/Playlists/index.php:146
+msgid "Create a playlist"
+msgstr "Créer une liste de lecture"
+
+#: ./templates/Playlists/index.php:149
+msgid "Title"
+msgstr "Titre"
+
+#: ./templates/Playlists/index.php:152
+#: ./templates/Users/index.php:88
+msgid "Create"
+msgstr "Créer"
+
+#: ./templates/Playlists/index.php:168
+msgid "Rename a playlist"
+msgstr "Renommer une liste de lecture"
+
+#: ./templates/Playlists/index.php:171
+msgid "New title"
+msgstr "Nouveau titre"
+
+#: ./templates/Playlists/index.php:174
+msgid "Save"
+msgstr "Enregistrer"
+
+#: ./templates/Settings/index.php:21
+msgid "Sonerezh settings"
+msgstr "Préférences de Sonerezh"
+
+#: ./templates/Settings/index.php:30
+#: ./templates/Settings/index.php:43
+#: ./templates/Settings/index.php:59
+msgid "Music root directory"
+msgstr "Emplacement de la bibliothèque"
+
+#: ./templates/Settings/index.php:66
+msgid "Make sure Sonerezh can read this folder recursively. Current App folder is:"
+msgstr "Assurez-vous que Sonerezh puisse lire ce dossier de manière récursive. Racine de l'application :"
+
+#: ./templates/Settings/index.php:72
+msgid "Enable mail notifications."
+msgstr "Activer les notifications par email."
+
+#: ./templates/Settings/index.php:79
+msgid "Sonerezh can send an email on users creation to notify them."
+msgstr "Sonerezh peut vous envoyer des emails lors de certains événements (création d'utilisateurs...)"
+
+#: ./templates/Settings/index.php:91
+msgid "Automatic tracks conversion"
+msgstr "Conversion automatique des pistes"
+
+#: ./templates/Settings/index.php:96
+msgid "The command 'avconv' or 'ffmpeg' are not available. Sonerezh cannot convert your tracks."
+msgstr "La commande 'avconv' ou 'ffmpeg' n'est pas disponible. Sonerezh ne pourra pas convertir vos pistes."
+
+#: ./templates/Settings/index.php:101
+msgid "If you have heterogeneous formats in your collection, and because your browser cannot read them all, Sonerezh can convert your tracks to MP3 or OGG/Vorbis before being played. The converted songs will be stored in the \"Songs Cache\"."
+msgstr "Si vous avez différents formats dans votre collection et parce que votre navigateur ne peut pas tous les lire, Sonerezh peut convertir vos pistes en MP3 ou OGG/Vorbis avant de les diffuser. Les morceaux convertis seront stockés dans le \"Cache audio\"."
+
+#: ./templates/Settings/index.php:106
+msgid "Source format"
+msgstr "Format source"
+
+#: ./templates/Settings/index.php:113
+msgid "Destination format"
+msgstr "Format de destination"
+
+#: ./templates/Settings/index.php:115
+msgid "Quality"
+msgstr "Qualité"
+
+#: ./templates/Settings/index.php:127
+msgid "Submit"
+msgstr "Enregistrer"
+
+#: ./templates/Settings/index.php:132
+msgid "Database management"
+msgstr "Gestion de la base de données"
+
+#: ./templates/Settings/index.php:135
+#: ./templates/element/admin_navbar.php:13
+msgid "Database update"
+msgstr "Mettre à jour la base"
+
+#: ./templates/Settings/index.php:138
+msgid "Clear the cache"
+msgstr "Nettoyer le cache"
+
+#: ./templates/Settings/index.php:141
+msgid "Reset the database"
+msgstr "Réinitialiser la base"
+
+#: ./templates/Settings/index.php:141
+msgid "Are you sure? All your songs and playlists will disappear!"
+msgstr "Etes-vous sûr ? Toutes vos pistes et vos listes de lecture seront supprimées !"
+
+#: ./templates/Settings/index.php:148
+msgid "Support Sonerezh!"
+msgstr "Soutenir Sonerezh!"
+
+#: ./templates/Settings/index.php:150
+msgid "Help us to provide you the best music player! Make a donation."
+msgstr "Aidez-nous à vous fournir le meilleur lecteur de musique ! Faites un don."
+
+#: ./templates/Settings/index.php:168
+msgid "Sonerezh statistics"
+msgstr "Aidez-nous à vous fournir le meilleur lecteur de musique ! Faites un don."
+
+#: ./templates/Settings/index.php:173
+#: ./templates/element/admin_navbar.php:2
+#: ./templates/element/default_navbar.php:2
+msgid "Artists"
+msgstr "Artistes"
+
+#: ./templates/Settings/index.php:177
+#: ./templates/element/admin_navbar.php:3
+#: ./templates/element/default_navbar.php:3
+msgid "Albums"
+msgstr "Albums"
+
+#: ./templates/Settings/index.php:181
+#: ./templates/layout/default.php:115
+msgid "Songs"
+msgstr "Pistes"
+
+#: ./templates/Settings/index.php:185
+msgid "Thumbnails cache"
+msgstr "Cache des miniatures"
+
+#: ./templates/Settings/index.php:189
+msgid "Songs cache"
+msgstr "Cache audio"
+
+#: ./templates/Songs/album.php:7
+msgid "Play album"
+msgstr "Lire l'album"
+
+#: ./templates/Songs/album.php:8
+#: ./templates/element/artists_view.php:61
+msgid "Shuffle this album"
+msgstr "Mélanger cet album"
+
+#: ./templates/Songs/album.php:14
+#: ./templates/element/add_menu.php:5
+#: ./templates/element/add_to_playlist.php:46
+#: ./templates/element/artists_view.php:27
+#: ./templates/element/artists_view.php:67
+msgid "Add to..."
+msgstr "Ajouter à..."
+
+#: ./templates/Songs/album.php:30
+#: ./templates/element/artists_view.php:80
+msgid "Disc"
+msgstr "Disque"
+
+#: ./templates/Songs/albums.php:7
+msgid "Recently added"
+msgstr "Ajoutés récemment"
+
+#: ./templates/Songs/albums.php:49
+msgid "All albums"
+msgstr "Albums"
+
+#: ./templates/Songs/albums.php:52
+msgid "Sort by album"
+msgstr "Trier par album"
+
+#: ./templates/Songs/albums.php:57
+msgid "Sort by band"
+msgstr "Trier par artiste"
+
+#: ./templates/Songs/import.php:34
+msgid "Something bad happened, update aborted :("
+msgstr "Un problème est apparu, mise à jour annulée :("
+
+#: ./templates/Songs/import.php:50
+msgid "Update successfully done"
+msgstr "Mise à jour terminée"
+
+#: ./templates/Songs/import.php:76
+msgid "Update currently running. Please do not leave the page."
+msgstr "Mise à jour en cours. Merci de ne pas quitter la page."
+
+#: ./templates/Songs/import.php:77
+msgid "Running..."
+msgstr "En cours..."
+
+#: ./templates/Songs/import.php:85
+msgid "Update the music collection"
+msgstr "Mise à jour de la collection"
+
+#: ./templates/Songs/import.php:90
+msgid "Have a huge collection? You might be interested in the CLI tool"
+msgstr "Grosse collection ? Vous pourriez être intéressé par l'outil en ligne de commande"
+
+#: ./templates/Songs/import.php:102
+msgid "({0} already imported)"
+msgstr "({0} déjà importée(s))"
+
+#: ./templates/Songs/import.php:120
+msgid "Last update:"
+msgstr "Dernière mise à jour :"
+
+#: ./templates/Songs/import.php:125
+msgid "Start Update"
+msgstr "Mettre à jour"
+
+#: ./templates/Songs/import.php:136
+msgid "Warning logs"
+msgstr "Avertissements"
+
+#: ./templates/Songs/import.php:147
+msgid "The update process is already running via another client or the CLI. You can click on \"Clear cache\" on the settings page to remove the lock, if needed."
+msgstr "Une mise à jour est déjà en cours d'exécution via un autre client ou la CLI. Pour supprimer ce verrou, vous pouvez cliquer sur le bouton \"Nettoyer le cache\" sur la page de paramètres."
+
+#: ./templates/Songs/import.php:151
+msgid "Database is up to date!"
+msgstr "La base de données est à jour !"
+
+#: ./templates/Songs/import.php:102
+msgid "{0} song detected"
+msgid_plural "{0} songs detected"
+msgstr[0] "{0} piste détectée "
+msgstr[1] "{0} pistes détectées "
+
+#: ./templates/Songs/import.php:105
+msgid "{0} song updated on the file system"
+msgid_plural "{0} songs updated on the file system"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ./templates/Songs/import.php:108
+msgid "{0} song removed from file system"
+msgid_plural "{0} songs removed from file system"
+msgstr[0] "{0} piste supprimées du système"
+msgstr[1] "{0} pistes supprimées du système"
+
+#: ./templates/Songs/search.php:4
+msgid "Looking for"
+msgstr "Chercher"
+
+#: ./templates/Songs/search.php:11
+#: ./templates/element/admin_navbar.php:8
+#: ./templates/element/admin_navbar.php:12
+#: ./templates/element/default_navbar.php:8
+#: ./templates/element/default_navbar.php:12
+msgid "Search"
+msgstr "Rechercher"
+
+#: ./templates/Users/edit.php:6
+#: ./templates/Users/edit.php:36
+#: ./templates/Users/index.php:6
+#: ./templates/Users/index.php:83
+msgid "Select a role"
+msgstr "Sélectionner un rôle"
+
+#: ./templates/Users/edit.php:14
+msgid "Edit your account"
+msgstr "Modifier votre compte"
+
+#: ./templates/Users/edit.php:16
+msgid "Edit a user"
+msgstr "Modifier un utilisateur"
+
+#: ./templates/Users/edit.php:28
+#: ./templates/Users/index.php:76
+msgid "Enter an email"
+msgstr "Entrer une adresse email"
+
+#: ./templates/Users/edit.php:29
+#: ./templates/Users/index.php:77
+msgid "We also use email for avatar detection if no avatar is uploaded."
+msgstr "L'adresse email est aussi utilisée pour la détection d'avatar si aucun avatar n'est envoyé."
+
+#: ./templates/Users/edit.php:31
+#: ./templates/Users/index.php:79
+msgid "Choose a password"
+msgstr "Choisissez un mot de passe"
+
+#: ./templates/Users/edit.php:31
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: ./templates/Users/edit.php:32
+msgid "Confirm new password"
+msgstr "Confirmez votre mot de passe"
+
+#: ./templates/Users/edit.php:35
+#: ./templates/Users/index.php:38
+#: ./templates/Users/index.php:82
+msgid "Administrator"
+msgstr "Administrateur"
+
+#: ./templates/Users/edit.php:35
+#: ./templates/Users/index.php:40
+#: ./templates/Users/index.php:82
+msgid "Listener"
+msgstr "Auditeur"
+
+#: ./templates/Users/edit.php:57
+msgid "Remove Avatar"
+msgstr "Supprimer l'avatar"
+
+#: ./templates/Users/edit.php:60
+msgid "You avatar will be removed, are you sure?"
+msgstr "Votre avatar sera supprimé, êtes vous sûr ?"
+
+#: ./templates/Users/edit.php:67
+msgid "You can upload an avatar here or change it at {0}"
+msgstr "Vous pouvez envoyer un avatar ici ou le modifier sur {0}"
+
+#: ./templates/Users/edit.php:74
+msgid "Save Changes"
+msgstr "Enregistrer"
+
+#: ./templates/Users/index.php:14
+#: ./templates/element/admin_navbar.php:15
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: ./templates/Users/index.php:15
+msgid "Share your music with your friends!"
+msgstr "Partagez votre musique avec vos amis !"
+
+#: ./templates/Users/index.php:25
+msgid "Email / Login"
+msgstr "Email / Identifiant"
+
+#: ./templates/Users/index.php:26
+msgid "Role"
+msgstr "Rôle"
+
+#: ./templates/Users/index.php:27
+msgid "Management"
+msgstr "Gestion"
+
+#: ./templates/Users/index.php:60
+msgid "New User"
+msgstr "Nouvel utilisateur"
+
+#: ./templates/Users/index.php:71
+msgid "Create a user"
+msgstr "Créer un utilisateur"
+
+#: ./templates/Users/index.php:80
+msgid "Confirm password"
+msgstr "Confirmez votre mot de passe"
+
+#: ./templates/Users/login.php:4
+msgid "Please Sign In"
+msgstr "Veuillez vous connecter"
+
+#: ./templates/Users/login.php:6
+msgid "Email Address"
+msgstr "Adresse email"
+
+#: ./templates/Users/login.php:9
+msgid "Remember me"
+msgstr "Se souvenir de moi"
+
+#: ./templates/Users/login.php:11
+msgid "Forgot Password?"
+msgstr "Mot de passe oublié ?"
+
+#: ./templates/Users/login.php:17
+msgid "Sign In"
+msgstr "Connexion"
+
+#: ./templates/Users/login.php:30
+msgid "Retrieve my password"
+msgstr "Réinitialiser mon mot de passe"
+
+#: ./templates/Users/login.php:35
+msgid "Enter your email"
+msgstr "Entrer une adresse email"
+
+#: ./templates/Users/login.php:36
+msgid "If your account exists, you will receive an email explaining how to change your password."
+msgstr "Si votre compte existe, vous allez recevoir un email vous expliquant comment changer votre mot de passe."
+
+#: ./templates/Users/login.php:41
+msgid "Send"
+msgstr "Envoyer"
+
+#: ./templates/Users/reset_password.php:4
+#: ./templates/email/html/send_token.php:5
+msgid "Reset your password"
+msgstr "Réinitialisez votre mot de passe"
+
+#: ./templates/Users/reset_password.php:7
+msgid "You asked for reset the password for the account {0}"
+msgstr "Vous avez demandé la réinitialisation du mot de passe pour le compte {0}"
+
+#: ./templates/Users/reset_password.php:8
+msgid "You can now choose a new password."
+msgstr "Vous pouvez maintenant choisir un nouveau mot de passe."
+
+#: ./templates/Users/reset_password.php:10
+msgid "New Password"
+msgstr "Nouveau mot de passe"
+
+#: ./templates/Users/reset_password.php:11
+msgid "Confirm the new password"
+msgstr "Confirmez votre mot de passe"
+
+#: ./templates/Users/reset_password.php:15
+msgid "Reset my password"
+msgstr "Réinitialiser mon mot de passe"
+
+#: ./templates/element/add_menu.php:8
+msgid "Download"
+msgstr "Télécharger"
+
+#: ./templates/element/add_to_playlist.php:66
+msgid "Playlist Title"
+msgstr "Titre de la liste de lecture"
+
+#: ./templates/element/add_to_playlist.php:79
+msgid "Add"
+msgstr "Ajouter"
+
+#: ./templates/element/admin_navbar.php:14
+msgid "Settings"
+msgstr "Préférences"
+
+#: ./templates/element/admin_navbar.php:16
+#: ./templates/element/default_navbar.php:13
+msgid "Logout"
+msgstr "Déconnexion"
+
+#: ./templates/element/admin_navbar.php:18
+#: ./templates/element/default_navbar.php:22
+msgid "Hi :)"
+msgstr "Salut :)"
+
+#: ./templates/element/artists_view.php:20
+msgid "Play all albums"
+msgstr "Lire tous les albums"
+
+#: ./templates/element/artists_view.php:21
+msgid "Shuffle this artist"
+msgstr "Mélanger cet artiste"
+
+#: ./templates/element/artists_view.php:60
+msgid "Play all tracks"
+msgstr "Lire toutes les pistes"
+
+#: ./templates/element/artists_view.php:11
+msgid "{0} Album"
+msgid_plural "{0} Albums"
+msgstr[0] "{0} Album"
+msgstr[1] "{0} Albums"
+
+#: ./templates/element/artists_view.php:12
+msgid "{0} Song"
+msgid_plural "{0} Songs"
+msgstr[0] "{0} Piste"
+msgstr[1] "{0} Pistes"
+
+#: ./templates/email/html/send_token.php:10
+msgid "Hi, you receive this email because you've requested a password reset on Sonerezh."
+msgstr "Salutations, vous recevez cet email car vous avez demandé la réinitialisation de votre mot de passe sur Sonerezh."
+
+#: ./templates/email/html/send_token.php:11
+msgid "Please follow this {0} or copy and paste the following URL in your browser: {1}"
+msgstr "Merci de bien vouloir suivre ce {0} ou copiez / collez l'adresse suivante dans votre navigateur : {1}"
+
+#: ./templates/email/html/send_token.php:13
+msgid "link"
+msgstr "lien"
+
+#: ./templates/email/html/user_add.php:5
+msgid "Welcome on Sonerezh,"
+msgstr "Bienvenue sur Sonerezh,"
+
+#: ./templates/email/html/user_add.php:10
+msgid "Your account ({0}) has been successfully created. We hope you will enjoy it :)"
+msgstr "Votre compte ({0}) a bien été créé. Nous espérons que vous l'apprécierez :)"
+
+#: ./templates/email/html/user_add.php:11
+msgid "Log me in"
+msgstr "Connexion"
+
+#: ./templates/layout/default.php:35
+msgid "Remove from queue"
+msgstr "Supprimer de la file d'attente"
+
+#: ./templates/layout/default.php:111
+msgid "Queue is empty."
+msgstr "La file d'attente est vide."
+
+#: ./templates/layout/default.php:115
+msgid "Queue"
+msgstr "File d'attente"
+
+#: ./templates/layout/error.php:36
+msgid "Back"
+msgstr ""
+

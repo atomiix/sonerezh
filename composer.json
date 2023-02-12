@@ -3,8 +3,21 @@
   "description": "A self-hosted, web-based application to stream your music, everywhere.",
   "type": "project",
   "require": {
-    "cakephp/cakephp": "2.10.*",
-    "james-heinrich/getid3": "1.9.*"
+    "ext-pdo": "*",
+    "cakephp/cakephp": "^4.4",
+    "cakephp/authentication": "^2.10",
+    "cakephp/authorization": "^2.3",
+    "james-heinrich/getid3": "^1.9",
+    "brick/varexporter": "^0.3.8",
+    "psr/container": "^1.1"
+  },
+  "require-dev": {
+    "cakephp/debug_kit": "^4.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
   },
   "license": "AGPL-3.0-or-later",
   "authors": [
@@ -13,8 +26,5 @@
       "email": "hey@sonerezh.bzh"
     }
   ],
-  "minimum-stability": "stable",
-  "config": {
-    "vendor-dir": "app/Vendor/"
-  }
+  "minimum-stability": "stable"
 }
