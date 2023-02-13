@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Component;
 
 use App\Middleware\RedirectMiddleware;
@@ -7,14 +9,14 @@ use Authentication\Controller\Component\AuthenticationComponent as BaseAuthentic
 
 class AuthenticationComponent extends BaseAuthenticationComponent
 {
-	public function getLoginRedirect(): ?string
-	{
-		$redirect = $this->getController()
-			->getRequest()
-			->getAttribute('session')
-			->consume(RedirectMiddleware::REDIRECT_KEY)
-		;
+    public function getLoginRedirect(): ?string
+    {
+        $redirect = $this->getController()
+            ->getRequest()
+            ->getAttribute('session')
+            ->consume(RedirectMiddleware::REDIRECT_KEY)
+        ;
 
-		return $redirect ?? parent::getLoginRedirect();
-	}
+        return $redirect ?? parent::getLoginRedirect();
+    }
 }

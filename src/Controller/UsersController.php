@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Event\UsersEventListener;
@@ -43,7 +45,7 @@ class UsersController extends AppController
         return false;
     }
 
-    public function index()
+    public function index(): void
     {
         $this->set('users', $this->Users->find()->all());
     }
@@ -59,7 +61,7 @@ class UsersController extends AppController
             } else {
                 $this->Flash->error(__('Unable to create a user. Make sure its email is not already used and his password is at least 8 characters long.'));
             }
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(['action' => 'index']);
         }
     }
 
@@ -69,8 +71,8 @@ class UsersController extends AppController
             return $this->redirect($this->referer());
         }
 
-		$user = $this->Users->get($id);
-        if ($this->request->is(array('post', 'put'))) {
+        $user = $this->Users->get($id);
+        if ($this->request->is(['post', 'put'])) {
             if ($this->Users->save($this->Users->patchEntity($user, $this->request->getData()))) {
                 $this->Flash->success(__('User updated: {0}', $this->request->getData('email')));
             } else {
@@ -102,36 +104,36 @@ class UsersController extends AppController
         }
 
         $user = $this->Users->get($id);
-		$user->avatar = null;
-		if ($this->Users->save($user)) {
-			$this->Flash->success(__('Avatar has been successfully removed!'));
-		} else {
-			$this->Flash->error(__('Something went wrong!'));
-		}
-		return $this->redirect(array('action' => 'edit/' . $id));
-	}
+        $user->avatar = null;
+        if ($this->Users->save($user)) {
+            $this->Flash->success(__('Avatar has been successfully removed!'));
+        } else {
+            $this->Flash->error(__('Something went wrong!'));
+        }
+        return $this->redirect(['action' => 'edit/' . $id]);
+    }
 
-	public function login()
-	{
-		$this->viewBuilder()->setLayout('login');
+    public function login()
+    {
+        $this->viewBuilder()->setLayout('login');
 
-		$result = $this->Authentication->getResult();
-		if ($result->isValid()) {
-			return $this->redirect($this->Authentication->getLoginRedirect() ?? '/');
-		}
-		if ($this->request->is('post')) {
-			$this->Flash->error(__('Wrong credentials!'));
-			$this->log('Failed authentication for ' . $this->request->getData('email') . ' from ' . $this->request->clientIp(), 'error');
-		}
+        $result = $this->Authentication->getResult();
+        if ($result->isValid()) {
+            return $this->redirect($this->Authentication->getLoginRedirect() ?? '/');
+        }
+        if ($this->request->is('post')) {
+            $this->Flash->error(__('Wrong credentials!'));
+            $this->log('Failed authentication for ' . $this->request->getData('email') . ' from ' . $this->request->clientIp(), 'error');
+        }
 
-		$settings = $this->getTableLocator()->get('Settings')->find()->first();
-		$this->set(compact('settings'));
-	}
+        $settings = $this->getTableLocator()->get('Settings')->find()->first();
+        $this->set(compact('settings'));
+    }
 
     public function logout()
     {
-		$this->Authentication->logout();
-		return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+        $this->Authentication->logout();
+        return $this->redirect(['controller' => 'Users', 'action' => 'login']);
     }
 
     /**
@@ -142,12 +144,11 @@ class UsersController extends AppController
     public function setResetPasswordToken()
     {
         if ($this->request->is('POST')) {
-
-			$user = $this->Users->find()->where(['email' => $this->request->getData('email')])->first();
+            $user = $this->Users->find()->where(['email' => $this->request->getData('email')])->first();
 
             if ($user === null) {
                 $this->Flash->error(__('Unable to find your account.'));
-                return $this->redirect(array('action' => 'login'));
+                return $this->redirect(['action' => 'login']);
             }
 
             $this->loadComponent('Date');
@@ -162,7 +163,7 @@ class UsersController extends AppController
             // Send the token
             if ($urlsafe_token) {
                 $usersEventListener = new UsersEventListener();
-				$event = new Event('Controller.User.resetPassword', $user, ['token' => $urlsafe_token]);
+                $event = new Event('Controller.User.resetPassword', $user, ['token' => $urlsafe_token]);
 
                 $this->Users->getEventManager()->on($usersEventListener);
                 $this->Users->getEventManager()->dispatch($event);
@@ -171,7 +172,7 @@ class UsersController extends AppController
             } else {
                 $this->Flash->error(__('Unable to generate a token.'));
             }
-            return $this->redirect(array('action' => 'login'));
+            return $this->redirect(['action' => 'login']);
         }
     }
 
@@ -183,7 +184,7 @@ class UsersController extends AppController
 
         if (!$token) {
             $this->Flash->error(__('You need to provide a token.'));
-            return $this->redirect(array('action' => 'login'));
+            return $this->redirect(['action' => 'login']);
         }
 
         $this->loadComponent('Url');
@@ -191,44 +192,44 @@ class UsersController extends AppController
 
         if (!$binary_token) {
             $this->Flash->error(__('Unable to decode your token.'));
-            return $this->redirect(array('action' => 'login'));
+            return $this->redirect(['action' => 'login']);
         }
 
         $token_data = @unpack('Iid/Sdate/Sentropy/Lpassword_crc32', $binary_token);
 
         if (!$token_data) {
             $this->Flash->error(__('Unable to read your token.'));
-            return $this->redirect(array('action' => 'login'));
+            return $this->redirect(['action' => 'login']);
         }
 
         $this->loadComponent('Date');
-        list($year, $month, $day) = $this->Date->date16_decode($token_data['date']);
+        [$year, $month, $day] = $this->Date->date16_decode($token_data['date']);
         $token_date = "{$year}-{$month}-{$day}";
         $today = date('y-n-d');
 
         if ($token_date !== $today) {
             $this->Flash->error(__('The token has expired.'));
-            return $this->redirect(array('action' => 'login'));
+            return $this->redirect(['action' => 'login']);
         }
 
         $token_id = $token_data['id'];
-		$user = $this->Users->find()->select(['id', 'email', 'password'])->where(['id' => $token_id])->first();
+        $user = $this->Users->find()->select(['id', 'email', 'password'])->where(['id' => $token_id])->first();
 
         if ($user === null) {
             $this->Flash->error(__('Unable to find your account.'));
-            return $this->redirect(array('action' => 'login'));
+            return $this->redirect(['action' => 'login']);
         } elseif (crc32($user->password) !== $token_data['password_crc32']) {
             $this->Flash->error(__('Wrong token.'));
-            return $this->redirect(array('action' => 'login'));
+            return $this->redirect(['action' => 'login']);
         }
 
         $this->set(compact('user'));
 
-        if ($this->request->is(array('post', 'put'))) {
-			$this->Users->patchEntity($user, $this->request->getData());
+        if ($this->request->is(['post', 'put'])) {
+            $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('Your password has been updated.'));
-                return $this->redirect(array('action' => 'login'));
+                return $this->redirect(['action' => 'login']);
             } else {
                 $this->Flash->error(__('Unable to update your password.'));
             }

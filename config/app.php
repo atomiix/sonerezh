@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Cake\Cache\Engine\FileEngine;
 use Cake\Database\Connection;
 use Cake\Database\Driver\Mysql;
@@ -329,10 +331,10 @@ return [
      */
     'Session' => [
         'defaults' => 'php',
-		'cookie' => 'Sonerezh',
+        'cookie' => 'Sonerezh',
     ],
 
-	'DebugKit' => [
-		'ignoreAuthorization' => true,
-	]
+    'DebugKit' => [
+        'ignoreAuthorization' => true,
+    ],
 ];

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Event;
 
 use Cake\Event\EventInterface;
@@ -9,18 +11,17 @@ use Cake\ORM\TableRegistry;
 
 class UsersEventListener implements EventListenerInterface
 {
-
     public function implementedEvents(): array
     {
-        return array(
+        return [
             'Model.User.add' => 'sendUserCreationEmail',
-            'Controller.User.resetPassword' => 'sendResetPasswordEmail'
-        );
+            'Controller.User.resetPassword' => 'sendResetPasswordEmail',
+        ];
     }
 
-    public function sendUserCreationEmail(EventInterface $event)
+    public function sendUserCreationEmail(EventInterface $event): void
     {
-		$settings = TableRegistry::getTableLocator()->get('Settings')->find()->select(['enable_mail_notification'])->first();
+        $settings = TableRegistry::getTableLocator()->get('Settings')->find()->select(['enable_mail_notification'])->first();
 
         if ($settings->enable_mail_notification) {
             $user_email = $event->getSubject()->email;
@@ -29,17 +30,17 @@ class UsersEventListener implements EventListenerInterface
                 ->setSubject(__('Welcome on Sonerezh!'))
                 ->setEmailFormat('html')
                 ->viewBuilder()
-				->setTemplate('userAdd')
-				->setVars(compact('user_email'));
-			$email->deliver();
+                ->setTemplate('userAdd')
+                ->setVars(compact('user_email'));
+            $email->deliver();
         }
     }
 
-    public function sendResetPasswordEmail(EventInterface $event)
+    public function sendResetPasswordEmail(EventInterface $event): void
     {
-		$settings = TableRegistry::getTableLocator()->get('Settings')->find()->select(['enable_mail_notification'])->first();
+        $settings = TableRegistry::getTableLocator()->get('Settings')->find()->select(['enable_mail_notification'])->first();
 
-		if ($settings->enable_mail_notification) {
+        if ($settings->enable_mail_notification) {
             $user = $event->getSubject();
             $token = $event->getData('token');
 
@@ -47,11 +48,10 @@ class UsersEventListener implements EventListenerInterface
             $email->setTo($user->email)
                 ->setSubject(__('Forgot your password?'))
                 ->setEmailFormat('html')
-				->viewBuilder()
-				->setTemplate('sendToken')
-				->setVars(compact('token'));
-			$email->deliver();
-
+                ->viewBuilder()
+                ->setTemplate('sendToken')
+                ->setVars(compact('token'));
+            $email->deliver();
         }
     }
 }

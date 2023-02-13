@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 
-class UrlComponent extends Component {
-
+class UrlComponent extends Component
+{
     /**
      * Encode data to base64 without URL unsafe characters
      * Thanks to @bdelespierre (http://bdelespierre.fr/article/bien-plus-quun-simple-jeton/)
@@ -13,7 +15,8 @@ class UrlComponent extends Component {
      * @param $data
      * @return string
      */
-    public function base64url_encode($data) {
+    public function base64url_encode($data)
+    {
         return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
     }
 
@@ -24,8 +27,8 @@ class UrlComponent extends Component {
      * @param $data
      * @return string
      */
-    public function base64url_decode($data) {
-        return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT));
+    public function base64url_decode($data)
+    {
+        return base64_decode(str_pad(strtr($data, '-_', '+/'), strlen($data) % 4, '=', STR_PAD_RIGHT), true);
     }
 }
-

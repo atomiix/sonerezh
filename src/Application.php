@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     3.3.0
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App;
 
 use App\Console\Command\ImportCommand;
@@ -84,7 +86,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         }
 
         // Load more plugins here
-	}
+    }
 
     /**
      * Setup the middleware queue your application will use.
@@ -110,21 +112,21 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // See https://github.com/CakeDC/cakephp-cached-routing
             ->add(new RoutingMiddleware($this))
 
-			->add(new InstallationMiddleware())
+            ->add(new InstallationMiddleware())
 
-			// Parse various types of encoded request bodies so that they are
-			// available as array through $request->getData()
-			// https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
-			->add(new BodyParserMiddleware())
-			->add(new AuthenticationMiddleware($this))
-			->add(new AuthorizationMiddleware($this))
-			->add(new RedirectMiddleware())
-			->add(new LocaleSelectorMiddleware(['*']));
+            // Parse various types of encoded request bodies so that they are
+            // available as array through $request->getData()
+            // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
+            ->add(new BodyParserMiddleware())
+            ->add(new AuthenticationMiddleware($this))
+            ->add(new AuthorizationMiddleware($this))
+            ->add(new RedirectMiddleware())
+            ->add(new LocaleSelectorMiddleware(['*']));
 
-		if (Configure::read('installed')) {
-			$middlewareQueue->insertBefore(InstallationMiddleware::class, new EncryptedCookieMiddleware(['CookieAuth'], Security::getSalt()));
-			$middlewareQueue->insertBefore(InstallationMiddleware::class, new SessionCsrfProtectionMiddleware());
-		}
+        if (Configure::read('installed')) {
+            $middlewareQueue->insertBefore(InstallationMiddleware::class, new EncryptedCookieMiddleware(['CookieAuth'], Security::getSalt()));
+            $middlewareQueue->insertBefore(InstallationMiddleware::class, new SessionCsrfProtectionMiddleware());
+        }
 
         return $middlewareQueue;
     }
@@ -140,20 +142,20 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     {
     }
 
-	public function console(CommandCollection $commands): CommandCollection
-	{
-		$commands->add('server', ServerCommand::class);
-		$commands->add('import', ImportCommand::class);
+    public function console(CommandCollection $commands): CommandCollection
+    {
+        $commands->add('server', ServerCommand::class);
+        $commands->add('import', ImportCommand::class);
 
-		if (Configure::read('debug')) {
-			return parent::console($commands);
-		}
+        if (Configure::read('debug')) {
+            return parent::console($commands);
+        }
 
-		return $commands;
-	}
+        return $commands;
+    }
 
 
-	/**
+    /**
      * Bootstrapping for CLI application.
      *
      * That is when running commands.
@@ -168,56 +170,56 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         // Load more plugins here
     }
 
-	public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
-	{
-		$loginUrl = Router::url([
-			'prefix' => false,
-			'plugin' => null,
-			'controller' => 'Users',
-			'action' => 'login',
-		]);
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $loginUrl = Router::url([
+            'prefix' => false,
+            'plugin' => null,
+            'controller' => 'Users',
+            'action' => 'login',
+        ]);
 
-		$service = new AuthenticationService([
-			'unauthenticatedRedirect' => $loginUrl,
-		]);
+        $service = new AuthenticationService([
+            'unauthenticatedRedirect' => $loginUrl,
+        ]);
 
-		$fields = [
-			IdentifierInterface::CREDENTIAL_USERNAME => 'email',
-			IdentifierInterface::CREDENTIAL_PASSWORD => 'password'
-		];
-		// Load the authenticators. Session should be first.
-		$service->loadAuthenticator('Authentication.Session');
-		// If the user is on the login page, check for a cookie as well.
-		$service->loadAuthenticator('Authentication.Cookie', [
-			'fields' => $fields,
-			'loginUrl' => $loginUrl,
-			'salt' => true,
-		]);
-		$service->loadAuthenticator('Authentication.Form', [
-			'fields' => $fields,
-			'loginUrl' => $loginUrl,
-		]);
+        $fields = [
+            IdentifierInterface::CREDENTIAL_USERNAME => 'email',
+            IdentifierInterface::CREDENTIAL_PASSWORD => 'password',
+        ];
+        // Load the authenticators. Session should be first.
+        $service->loadAuthenticator('Authentication.Session');
+        // If the user is on the login page, check for a cookie as well.
+        $service->loadAuthenticator('Authentication.Cookie', [
+            'fields' => $fields,
+            'loginUrl' => $loginUrl,
+            'salt' => true,
+        ]);
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => $loginUrl,
+        ]);
 
-		// Load identifiers
-		$service->loadIdentifier('Authentication.Password', compact('fields'));
+        // Load identifiers
+        $service->loadIdentifier('Authentication.Password', compact('fields'));
 
-		return $service;
-	}
+        return $service;
+    }
 
-	public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
-	{
-		return new AuthorizationService(new class implements ResolverInterface {
-			public function getPolicy($resource)
-			{
-				return new class () {
+    public function getAuthorizationService(ServerRequestInterface $request): AuthorizationServiceInterface
+    {
+        return new AuthorizationService(new class () implements ResolverInterface {
+            public function getPolicy($resource)
+            {
+                return new class () {
+                    public function __call(string $name, array $arguments)
+                    {
+                        [$user, $controller] = $arguments;
 
-					public function __call(string $name, array $arguments) {
-						[$user, $controller] = $arguments;
-
-						return $user === null || $controller->isAuthorized($user->getOriginalData());
-					}
-				};
-			}
-		});
-	}
+                        return $user === null || $controller->isAuthorized($user->getOriginalData());
+                    }
+                };
+            }
+        });
+    }
 }

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 
-
-class DateComponent extends Component {
-
+class DateComponent extends Component
+{
     /**
      * Encode a given date on 16 bits
      * 7 bits for the year (0 - 99)
@@ -19,7 +20,8 @@ class DateComponent extends Component {
      * @param $day The day
      * @return int Signed integer between 0 and 51103
      */
-    function date16_encode ($year, $month, $day) {
+    public function date16_encode($year, $month, $day)
+    {
         $day    &= 0b00011111;
         $month  &= 0b00001111;
         $year   &= 0b01111111;
@@ -34,7 +36,8 @@ class DateComponent extends Component {
      * @param $date The date to decode
      * @return array Array of integers (YY MM DD)
      */
-    function date16_decode ($date) {
+    public function date16_decode($date)
+    {
         $year   = ($date >> 9) & 0b01111111;
         $month  = ($date >> 5) & 0b00001111;
         $day    = ($date)      & 0b00011111;

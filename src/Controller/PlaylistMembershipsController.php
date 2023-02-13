@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Cake\Http\Exception\MethodNotAllowedException;
@@ -10,7 +12,6 @@ use Cake\Http\Exception\MethodNotAllowedException;
  */
 class PlaylistMembershipsController extends AppController
 {
-
     /**
      * This function adds songs into your favorites playlists.
      * All the information is passed through a POST request. To add multiple songs at the same time you can use a list
@@ -19,7 +20,6 @@ class PlaylistMembershipsController extends AppController
     public function add()
     {
         if ($this->request->is('post')) {
-
             // Verify that Playlist.id is correct
             if ($this->request->getData('id') === null && $this->request->getData('title') === null) {
                 $this->Flash->error(__('You must specify a valid playlist'));
@@ -37,22 +37,20 @@ class PlaylistMembershipsController extends AppController
                 }
 
                 // Get playlist length to add the song at the end of the playlist
-				$playlist_length = $this->PlaylistMemberships->find()
-					->where(['playlist_id' => $this->request->getData('id')])
-					->count();
-
+                $playlist_length = $this->PlaylistMemberships->find()
+                    ->where(['playlist_id' => $this->request->getData('id')])
+                    ->count();
             }
 
             $data = $this->request->getData() + ['playlist_memberships' => []];
             //Simple song id
             if ($this->request->getData("song") !== null) {
-                $data['playlist_memberships'][] = array(
+                $data['playlist_memberships'][] = [
                     'song_id' => $this->request->getData('song'),
-                    'sort' => $playlist_length + 1
-                );
-
+                    'sort' => $playlist_length + 1,
+                ];
             } elseif ($this->request->getData('band') !== null) { // It's a band!
-                $conditions = array('band' => $this->request->getData('band'));
+                $conditions = ['band' => $this->request->getData('band')];
                 $order = 'band';
 
                 if ($this->request->getData('album') !== null) { // It's an album!
@@ -61,9 +59,9 @@ class PlaylistMembershipsController extends AppController
                 }
 
                 $songs = $this->getTableLocator()->get('Songs')->find()
-					->select(['id', 'title', 'album', 'band', 'track_number', 'disc'])
-					->where($conditions)
-					->toArray();
+                    ->select(['id', 'title', 'album', 'band', 'track_number', 'disc'])
+                    ->where($conditions)
+                    ->toArray();
 
                 $this->loadComponent('Sort');
 
@@ -74,10 +72,10 @@ class PlaylistMembershipsController extends AppController
                 }
 
                 foreach ($songs as $song) {
-                    $data['playlist_memberships'][] = array(
+                    $data['playlist_memberships'][] = [
                         'song_id' => $song->id,
-                        'sort' => ++$playlist_length
-                    );
+                        'sort' => ++$playlist_length,
+                    ];
                 }
             }
 
@@ -85,7 +83,7 @@ class PlaylistMembershipsController extends AppController
             $Playlists = $this->getTableLocator()->get('Playlists');
             $data['user_id'] = $this->Authentication->getIdentityData('id');
             if (!empty($data['id'])) {
-            	// Unset Playlist.title if Playlist.id is set to avoid erase Playlist.title
+                // Unset Playlist.title if Playlist.id is set to avoid erase Playlist.title
                 unset($data['title']);
                 $entity = $Playlists->get($data['id']);
                 $Playlists->patchEntity($entity, $data, ['associated' => 'PlaylistMemberships']);

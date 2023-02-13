@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -157,17 +158,17 @@ if ($fullBaseUrl) {
 unset($fullBaseUrl);
 
 if (file_exists(CONFIG . 'app_config.php')) {
-	Configure::write('installed', true);
-	Configure::load('app_config', 'default');
-	ConnectionManager::setConfig(Configure::consume('Datasources'));
-	Security::setSalt(Configure::consume('Security.salt'));
+    Configure::write('installed', true);
+    Configure::load('app_config', 'default');
+    ConnectionManager::setConfig(Configure::consume('Datasources'));
+    Security::setSalt(Configure::consume('Security.salt'));
 }
 if (file_exists(CONFIG . 'email.php')) {
-	Configure::load('email', 'default');
-	if (Configure::check('Email')) {
-		Mailer::setConfig(Configure::consume('Email'));
-		TransportFactory::setConfig(Configure::consume('EmailTransport'));
-	}
+    Configure::load('email', 'default');
+    if (Configure::check('Email')) {
+        Mailer::setConfig(Configure::consume('Email'));
+        TransportFactory::setConfig(Configure::consume('EmailTransport'));
+    }
 }
 Cache::setConfig(Configure::consume('Cache'));
 Log::setConfig(Configure::consume('Log'));

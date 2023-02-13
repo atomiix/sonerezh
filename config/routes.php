@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Routes configuration.
  *
@@ -25,7 +27,7 @@ use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
 
-return static function (RouteBuilder $routes) {
+return static function (RouteBuilder $routes): void {
     /*
      * The default class to use for all routes
      *
@@ -45,32 +47,32 @@ return static function (RouteBuilder $routes) {
      */
     $routes->setRouteClass(DashedRoute::class);
 
-	$routes->scope('/', function (RouteBuilder $builder) {
-		$builder->connect('/install', array('controller' => 'installers', 'action' => 'index'));
-		$builder->connect('/docker-install', array('controller' => 'installers', 'action' => 'docker'));
-	});
+    $routes->scope('/', function (RouteBuilder $builder): void {
+        $builder->connect('/install', ['controller' => 'installers', 'action' => 'index']);
+        $builder->connect('/docker-install', ['controller' => 'installers', 'action' => 'docker']);
+    });
 
-    $routes->scope('/', function (RouteBuilder $builder) {
-		$builder->connect('/', array('controller' => 'songs', 'action' => 'index'));
+    $routes->scope('/', function (RouteBuilder $builder): void {
+        $builder->connect('/', ['controller' => 'songs', 'action' => 'index']);
 
-		$builder->connect('/login', array('controller' => 'users', 'action' => 'login'));
-		$builder->connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+        $builder->connect('/login', ['controller' => 'users', 'action' => 'login']);
+        $builder->connect('/logout', ['controller' => 'users', 'action' => 'logout']);
 
-		$builder->connect('/api/*', array('controller' => 'api'));
+        $builder->connect('/api/*', ['controller' => 'api']);
 
-		$builder->connect('/playlists/{action}/{id}', array('controller' => 'playlists'), array('pass' => array('id')));
-		$builder->connect('/playlists/add', array('controller' => 'playlists', 'action' => 'add'));
-		$builder->connect('/playlists/*', array('controller' => 'playlists', 'action' => 'index'));
+        $builder->connect('/playlists/{action}/{id}', ['controller' => 'playlists'], ['pass' => ['id']]);
+        $builder->connect('/playlists/add', ['controller' => 'playlists', 'action' => 'add']);
+        $builder->connect('/playlists/*', ['controller' => 'playlists', 'action' => 'index']);
 
-		$builder->connect('/users', array('controller' => 'users', 'action' => 'index'));
+        $builder->connect('/users', ['controller' => 'users', 'action' => 'index']);
 
-		$builder->connect('/settings', array('controller' => 'settings', 'action' => 'index'));
+        $builder->connect('/settings', ['controller' => 'settings', 'action' => 'index']);
 
-		$builder->connect('/img/**', array('controller' => 'img', 'action' => 'index'));
+        $builder->connect('/img/**', ['controller' => 'img', 'action' => 'index']);
 
-		$builder->connect('/{action}', array('controller' => 'songs'));
+        $builder->connect('/{action}', ['controller' => 'songs']);
 
-		$builder->fallbacks();
+        $builder->fallbacks();
     });
 
     /*

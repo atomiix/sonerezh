@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -10,16 +11,11 @@ use Cake\Validation\Validator;
 
 class PlaylistsTable extends Table
 {
-	public function initialize(array $config): void
-	{
-		$this->addBehavior('Timestamp');
-		$this->hasMany('PlaylistMemberships', ['dependent' => true]);
-	}
-
-	public function validationDefault(Validator $validator): Validator
-	{
-		return $validator->notBlank('title', __('The playlist must have a title'));
-	}
+    public function initialize(array $config): void
+    {
+        $this->addBehavior('Timestamp');
+        $this->hasMany('PlaylistMemberships', ['dependent' => true]);
+    }
 
     public function validationDefault(Validator $validator): Validator
     {

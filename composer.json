@@ -12,7 +12,8 @@
     "psr/container": "^1.1"
   },
   "require-dev": {
-    "cakephp/debug_kit": "^4.9"
+    "cakephp/debug_kit": "^4.9",
+    "friendsofphp/php-cs-fixer": "^3.14"
   },
   "autoload": {
     "psr-4": {

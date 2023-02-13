@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Helper;
 
 use Cake\View\Helper;
 
 class ImageHelper extends Helper
 {
-
-	protected $helpers = array('Html');
+    protected $helpers = ['Html'];
     public function resizedPath($path, $width = 0, $height = 0)
     {
         $extension = '.' . pathinfo($path, PATHINFO_EXTENSION);
@@ -17,7 +18,7 @@ class ImageHelper extends Helper
         return $path;
     }
 
-    public function lazyload($path, $options = array())
+    public function lazyload($path, $options = [])
     {
         $image = $this->Html->image($path, $options);
         return str_replace('src="', 'src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" onload="lzldhd(this)" data-src="', $image);
@@ -33,5 +34,4 @@ class ImageHelper extends Helper
         }
         return $image;
     }
-
 }

@@ -1,19 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
 
 class ImageComponent extends Component
 {
-
-    private static $useGD = TRUE;
+    private static $useGD = true;
     private static $jpeg_quality = 90;
     private static $png_quality = 9;
 
     public function resize($img, $to, $width = 0, $height = 0)
     {
-
         $dimensions = getimagesize($img);
         $ratio = $dimensions[0] / $dimensions[1];
         $exif = @exif_read_data($img);
@@ -26,10 +26,10 @@ class ImageComponent extends Component
                     break;
                 case 6:
                     $rotation = -90;
-                    list($width, $height) = array($height, $width);
+                    [$width, $height] = [$height, $width];
                     break;
                 case 8:
-                    list($width, $height) = array($height, $width);
+                    [$width, $height] = [$height, $width];
                     $rotation = 90;
                     break;
             }
@@ -92,7 +92,7 @@ class ImageComponent extends Component
             } else {
                 imagejpeg($pattern, $to, self::$jpeg_quality);
             }
-            return TRUE;
+            return true;
         } else {
             $cmd = '/usr/bin/convert -resize ' . $dimX . 'x' . $dimY . ' "' . $img . '" "' . $to . '"';
             shell_exec($cmd);
@@ -100,7 +100,7 @@ class ImageComponent extends Component
             $cmd = '/usr/bin/convert -gravity Center -quality ' . self::$quality . ' -crop ' . $width . 'x' . $height . '+0+0 -page ' . $width . 'x' . $height . ' "' . $to . '" "' . $to . '"';
             shell_exec($cmd);
         }
-        return TRUE;
+        return true;
     }
 
     public function mainColor($img)
@@ -118,7 +118,7 @@ class ImageComponent extends Component
                 break;
         }
         $dimensions = getimagesize($img);
-        $colors = array();
+        $colors = [];
         for ($i = 0; $i < $dimensions[0]; $i++) {
             for ($j = 0; $j < $dimensions[1]; $j++) {
                 $index = imagecolorat($image, $i, $j);

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Middleware;
@@ -11,14 +12,14 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class RedirectMiddleware implements MiddlewareInterface
 {
-	public const REDIRECT_KEY = 'redirect';
-	public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-	{
-		try {
-			return $handler->handle($request);
-		} catch (UnauthenticatedException $exception) {
-			$request->getAttribute('session')->write(self::REDIRECT_KEY, $request->getUri()->getPath());
-			throw $exception;
-		}
-	}
+    public const REDIRECT_KEY = 'redirect';
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        try {
+            return $handler->handle($request);
+        } catch (UnauthenticatedException $exception) {
+            $request->getAttribute('session')->write(self::REDIRECT_KEY, $request->getUri()->getPath());
+            throw $exception;
+        }
+    }
 }

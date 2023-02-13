@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Cake\Http\Exception\MethodNotAllowedException;
@@ -11,46 +13,45 @@ use Cake\Http\Exception\NotFoundException;
  */
 class PlaylistsController extends AppController
 {
-
     /**
      * Retrieve the current user playlists, and songs of a given playlist before pass them to the view.
      *
      * @param int|null $id The playlist ID.
      */
-    public function index($id = null)
+    public function index($id = null): void
     {
         /**
          * @var array Array of playlist songs.
          */
-        $playlist = array();
+        $playlist = [];
 
         /**
          * @var string Name of playlist songs.
          */
         $playlistName = null;
 
-        $playlistInfo = array();
+        $playlistInfo = [];
 
         /**
          * @var array Array of user playlists.
          */
-		$playlists = $this->Playlists->find('list')
-			->select(['id', 'title'])
-			->where(['user_id' => $this->Authentication->getIdentityData('id')])
-			->toArray();
+        $playlists = $this->Playlists->find('list')
+            ->select(['id', 'title'])
+            ->where(['user_id' => $this->Authentication->getIdentityData('id')])
+            ->toArray();
 
         // Find playlist content
         if (!empty($playlists)) {
             if ($id == null) {
                 $id = key($playlists);
             }
-            $playlistInfo = array('id' => $id, 'name' => $playlists[$id]);
-			$playlist = $this->getTableLocator()->get('PlaylistMemberships')
-				->find()
-				->contain('Songs')
-				->where(['playlist_id' => $id])
-				->order(['sort'])
-				->all();
+            $playlistInfo = ['id' => $id, 'name' => $playlists[$id]];
+            $playlist = $this->getTableLocator()->get('PlaylistMemberships')
+                ->find()
+                ->contain('Songs')
+                ->where(['playlist_id' => $id])
+                ->order(['sort'])
+                ->all();
         }
 
         $this->set(compact('playlists', 'playlist', 'playlistInfo'));
@@ -62,9 +63,9 @@ class PlaylistsController extends AppController
     public function add()
     {
         if ($this->request->is('post')) {
-			$playlist = $this->Playlists->newEntity(
-				$this->request->getData() + ['user_id' => $this->Authentication->getIdentityData('id')]
-			);
+            $playlist = $this->Playlists->newEntity(
+                $this->request->getData() + ['user_id' => $this->Authentication->getIdentityData('id')]
+            );
 
             if ($this->Playlists->save($playlist)) {
                 $this->Flash->success(__('Playlist created: {0}', $this->request->getData('title')));
@@ -72,7 +73,7 @@ class PlaylistsController extends AppController
                 $this->Flash->error(__('Unable to create the playlist: {0}', $this->request->getData('title')));
             }
 
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(['action' => 'index']);
         }
     }
 
@@ -93,18 +94,18 @@ class PlaylistsController extends AppController
             throw new NotFoundException(__('Invalid playlist ID'));
         }
 
-        if ($this->request->is(array('post', 'put'))) {
-			$this->Playlists->patchEntity($playlist, $this->request->getData());
+        if ($this->request->is(['post', 'put'])) {
+            $this->Playlists->patchEntity($playlist, $this->request->getData());
             if ($this->Playlists->save($playlist)) {
                 $this->Flash->success(__('Playlist renamed: {0}', $this->request->getData('title')));
             } else {
                 $this->Flash->error(__('Unable to rename the playlist: {0}', $playlist->title));
             }
 
-            return $this->redirect(array('controller' => 'playlists', 'action' => 'index'));
+            return $this->redirect(['controller' => 'playlists', 'action' => 'index']);
         }
 
-		throw new MethodNotAllowedException();
+        throw new MethodNotAllowedException();
     }
 
     /**
@@ -125,6 +126,6 @@ class PlaylistsController extends AppController
         } else {
             $this->Flash->error(__('Unable to delete the playlist: {0}', $playlist->title));
         }
-        return $this->redirect(array('action' => 'index'));
+        return $this->redirect(['action' => 'index']);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App;
 
 use Cake\Filesystem\File;
@@ -9,15 +11,14 @@ use getid3_lib;
 
 class SongManager
 {
-
     protected $song;
 
-    function __construct($song)
+    public function __construct($song)
     {
         $this->song = new File($song);
     }
 
-    function parseMetadata()
+    public function parseMetadata()
     {
         $getID3 = new getID3();
         $getID3->option_tags_html = false;
@@ -25,18 +26,18 @@ class SongManager
         getid3_lib::CopyTagsToComments($file_infos);
 
         // Can be useful to add more debug in the future
-        $result = array(
+        $result = [
             'status' => 'OK',   // 'OK', 'WARN' or 'ERR'
             'message' => '',    // Debug message
-            'data' => array()   // The data ($metadata array below)
-        );
+            'data' => [],   // The data ($metadata array below)
+        ];
 
         if (!isset($file_infos['comments']) || empty($file_infos['comments'])) {
             $result['status'] = 'WARN';
             $result['message'] = 'Metadata are unreadable or empty. Trying to import anyway...';
         }
 
-        $metadata = array();
+        $metadata = [];
 
         // Song title
         if (!empty($file_infos['comments']['title'])) {
@@ -148,7 +149,6 @@ class SongManager
             ) {
                 $metadata['cover'] = $cover_name;
             }
-
         } else {
             $cover_pattern = '^(folder|cover|front.*|albumart_.*_large)\.(jpg|jpeg|png)$';
             $covers = $this->song->Folder->find($cover_pattern);

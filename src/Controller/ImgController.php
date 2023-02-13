@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controller;
+declare(strict_types=1);
 
+namespace App\Controller;
 
 use Cake\Filesystem\Folder;
 use Cake\Http\Exception\NotFoundException;
@@ -14,13 +15,13 @@ use Cake\Http\Exception\NotFoundException;
  */
 class ImgController extends AppController
 {
-	public function initialize(): void
-	{
-		parent::initialize();
-		$this->loadComponent('Image');
-	}
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Image');
+    }
 
-	/**
+    /**
      * This function explodes the passed path in param to retrieve the dimensions of the resized image.
      * It uses ImageComponent to resize the image.
      *
@@ -30,7 +31,7 @@ class ImgController extends AppController
     public function index($img)
     {
         preg_match("/.*(_([0-9]+)x([0-9]+)(@2x)?)\.[a-z0-9]+$/i", $img, $format);
-        $dimensions = array($format[2], $format[3]);
+        $dimensions = [$format[2], $format[3]];
         if (isset($format[4])) {
             $dimensions[0] *= 2;
             $dimensions[1] *= 2;

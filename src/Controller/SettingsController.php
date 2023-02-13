@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use Cake\Cache\Cache;
@@ -18,29 +20,28 @@ use RegexIterator;
  */
 class SettingsController extends AppController
 {
-
     /**
      * This function manages the Sonerezh settings panel.
      * It also calculates some statistics and checks if avconv command is available.
      */
-    public function index()
+    public function index(): void
     {
-		$settings = $this->Settings->find()->contain(['Rootpaths'])->first();
+        $settings = $this->Settings->find()->contain(['Rootpaths'])->first();
 
-        if ($this->request->is(array('POST', 'PUT'))) {
-			$this->Settings->patchEntity($settings, $this->request->getData());
-			if ($this->Settings->save($settings, ['associated' => 'Rootpaths'])) {
-				$this->Flash->success(__('Settings saved!'));
-			} else {
-				$this->Flash->error(__('Unable to save settings!'));
-			}
+        if ($this->request->is(['POST', 'PUT'])) {
+            $this->Settings->patchEntity($settings, $this->request->getData());
+            if ($this->Settings->save($settings, ['associated' => 'Rootpaths'])) {
+                $this->Flash->success(__('Settings saved!'));
+            } else {
+                $this->Flash->error(__('Unable to save settings!'));
+            }
         }
 
-		$Songs = $this->getTableLocator()->get('Songs');
+        $Songs = $this->getTableLocator()->get('Songs');
 
         $stats['artists'] = $Songs->find()->select(['artist'])->distinct()->count();
 
-		$stats['albums'] = $Songs->find()->select(['album', 'band'])->distinct()->count();
+        $stats['albums'] = $Songs->find()->select(['album', 'band'])->distinct()->count();
 
         $stats['songs'] = $Songs->find()->count();
 
@@ -93,31 +94,31 @@ class SettingsController extends AppController
     public function clear()
     {
         $dir = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(TMP));
-		$songs = new RegexIterator($dir, '/^.*\.(mp3|ogg)$/');
+        $songs = new RegexIterator($dir, '/^.*\.(mp3|ogg)$/');
         foreach ($songs as $song) {
-			unlink($song->getRealPath());
+            unlink($song->getRealPath());
         }
 
-		if (file_exists(IMAGES.RESIZED_DIR)) {
-			$dir = new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator(IMAGES.RESIZED_DIR, FilesystemIterator::SKIP_DOTS),
-				RecursiveIteratorIterator::CHILD_FIRST
-			);
-			foreach ($dir as $file) {
-				if ($file->isDir()) {
-					rmdir($file->getRealPath());
-				} else {
-					unlink($file->getRealPath());
-				}
-			}
-		}
+        if (file_exists(IMAGES.RESIZED_DIR)) {
+            $dir = new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(IMAGES.RESIZED_DIR, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::CHILD_FIRST
+            );
+            foreach ($dir as $file) {
+                if ($file->isDir()) {
+                    rmdir($file->getRealPath());
+                } else {
+                    unlink($file->getRealPath());
+                }
+            }
+        }
 
-		$this->getTableLocator()->get('Songs')->updateAll(array('path' => null), []);
+        $this->getTableLocator()->get('Songs')->updateAll(['path' => null], []);
 
-		Cache::delete('import');
+        Cache::delete('import');
 
-		$this->Flash->success(__('Yeah! Cache cleared!'));
-        return $this->redirect(array('controller' => 'settings', 'action' => 'index'));
+        $this->Flash->success(__('Yeah! Cache cleared!'));
+        return $this->redirect(['controller' => 'settings', 'action' => 'index']);
     }
 
     /**
@@ -129,9 +130,8 @@ class SettingsController extends AppController
     public function truncate()
     {
         try {
-
-            $this->getTableLocator()->get('Songs')->deleteAll(array(null));
-            $this->getTableLocator()->get('Playlists')->deleteAll(array(null));
+            $this->getTableLocator()->get('Songs')->deleteAll([null]);
+            $this->getTableLocator()->get('Playlists')->deleteAll([null]);
 
             $thumbnails_dir = new Folder(IMAGES . THUMBNAILS_DIR . DS);
             $resized_dir = new Folder(IMAGES . RESIZED_DIR);
@@ -147,10 +147,10 @@ class SettingsController extends AppController
             }
 
             $this->Flash->success(__('All entries have been deleted!'));
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(['action' => 'index']);
         } catch (Exception $e) {
             $this->Flash->success(__('Unable to clean the database!'));
-            return $this->redirect(array('action' => 'index'));
+            return $this->redirect(['action' => 'index']);
         }
     }
 }

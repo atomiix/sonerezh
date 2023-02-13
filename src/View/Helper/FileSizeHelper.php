@@ -1,13 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\View\Helper;
 
 use Cake\View\Helper;
 
 class FileSizeHelper extends Helper
 {
-
-    public $units = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+    public $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 
     public function humanize($bytes)
     {
@@ -15,8 +16,7 @@ class FileSizeHelper extends Helper
             return '0';
         } else {
             $factor = (int)(log($bytes, 1024));
-            return sprintf("%.2f", $bytes / pow(1024, $factor)) . $this->units[$factor];
+            return sprintf("%.2f", $bytes / 1024** $factor) . $this->units[$factor];
         }
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use Cake\Database\Schema\TableSchema;
@@ -74,53 +75,54 @@ $playlists = (new TableSchema('playlists'))
     ]);
 
 $settings = (new TableSchema('settings'))
-	->addColumn('id', [
-		'type' => 'integer',
-		'autoIncrement' => true,
-		'default' => null,
-		'limit' => null,
-		'null' => false,
-		'signed' => false,
-	])
-	->addConstraint(
-		TableSchema::CONSTRAINT_PRIMARY, ['type' => TableSchema::CONSTRAINT_PRIMARY, 'columns' => 'id']
-	)->addColumn('enable_auto_conv', [
-		'type' => 'boolean',
-		'default' => false,
-		'limit' => null,
-		'null' => false,
-	])
-	->addColumn('convert_from', [
-		'type' => 'string',
-		'default' => 'aac,flac',
-		'limit' => 25,
-		'null' => false,
-	])
-	->addColumn('convert_to', [
-		'type' => 'string',
-		'default' => 'mp3',
-		'limit' => 5,
-		'null' => false,
-	])
-	->addColumn('quality', [
-		'type' => 'integer',
-		'default' => '256',
-		'limit' => null,
-		'null' => false,
-		'signed' => false,
-	])
-	->addColumn('enable_mail_notification', [
-		'type' => 'boolean',
-		'default' => false,
-		'limit' => null,
-		'null' => false,
-	])
-	->addColumn('sync_token', [
-		'type' => 'integer',
-		'default' => null,
-		'limit' => null,
-		'null' => true,
-	]);
+    ->addColumn('id', [
+        'type' => 'integer',
+        'autoIncrement' => true,
+        'default' => null,
+        'limit' => null,
+        'null' => false,
+        'signed' => false,
+    ])
+    ->addConstraint(
+        TableSchema::CONSTRAINT_PRIMARY,
+        ['type' => TableSchema::CONSTRAINT_PRIMARY, 'columns' => 'id']
+    )->addColumn('enable_auto_conv', [
+        'type' => 'boolean',
+        'default' => false,
+        'limit' => null,
+        'null' => false,
+    ])
+    ->addColumn('convert_from', [
+        'type' => 'string',
+        'default' => 'aac,flac',
+        'limit' => 25,
+        'null' => false,
+    ])
+    ->addColumn('convert_to', [
+        'type' => 'string',
+        'default' => 'mp3',
+        'limit' => 5,
+        'null' => false,
+    ])
+    ->addColumn('quality', [
+        'type' => 'integer',
+        'default' => '256',
+        'limit' => null,
+        'null' => false,
+        'signed' => false,
+    ])
+    ->addColumn('enable_mail_notification', [
+        'type' => 'boolean',
+        'default' => false,
+        'limit' => null,
+        'null' => false,
+    ])
+    ->addColumn('sync_token', [
+        'type' => 'integer',
+        'default' => null,
+        'limit' => null,
+        'null' => true,
+    ]);
 
 $rootpaths = (new TableSchema('rootpaths'))
     ->addColumn('id', [
@@ -148,41 +150,42 @@ $rootpaths = (new TableSchema('rootpaths'))
     ]);
 
 $users = (new TableSchema('users'))
-	->addColumn('id', [
-		'type' => 'integer',
-		'autoIncrement' => true,
-		'default' => null,
-		'limit' => null,
-		'null' => false,
-		'signed' => false,
-	])->addConstraint(
-		TableSchema::CONSTRAINT_PRIMARY, ['type' => TableSchema::CONSTRAINT_PRIMARY, 'columns' => 'id']
-	)->addColumn('email', [
-		'type' => 'string',
-		'default' => null,
-		'limit' => 255,
-		'null' => false,
-	])->addColumn('password', [
-		'type' => 'string',
-		'default' => null,
-		'limit' => 255,
-		'null' => false,
-	])->addColumn('role', [
-		'type' => 'string',
-		'default' => null,
-		'limit' => 15,
-		'null' => false,
-	])->addColumn('avatar', [
-		'type' => 'string',
-		'default' => null,
-		'limit' => 255,
-		'null' => true,
-	])->addColumn('preferences', [
-		'type' => 'text',
-		'default' => null,
-		'limit' => null,
-		'null' => true,
-	]);
+    ->addColumn('id', [
+        'type' => 'integer',
+        'autoIncrement' => true,
+        'default' => null,
+        'limit' => null,
+        'null' => false,
+        'signed' => false,
+    ])->addConstraint(
+        TableSchema::CONSTRAINT_PRIMARY,
+        ['type' => TableSchema::CONSTRAINT_PRIMARY, 'columns' => 'id']
+    )->addColumn('email', [
+        'type' => 'string',
+        'default' => null,
+        'limit' => 255,
+        'null' => false,
+    ])->addColumn('password', [
+        'type' => 'string',
+        'default' => null,
+        'limit' => 255,
+        'null' => false,
+    ])->addColumn('role', [
+        'type' => 'string',
+        'default' => null,
+        'limit' => 15,
+        'null' => false,
+    ])->addColumn('avatar', [
+        'type' => 'string',
+        'default' => null,
+        'limit' => 255,
+        'null' => true,
+    ])->addColumn('preferences', [
+        'type' => 'text',
+        'default' => null,
+        'limit' => null,
+        'null' => true,
+    ]);
 
 $songs = (new TableSchema('songs'))
     ->addColumn('id', [
@@ -293,10 +296,10 @@ $songs = (new TableSchema('songs'))
     ]);
 
 return [
-	$playlistMemberships,
-	$playlists,
-	$settings,
-	$rootpaths,
-	$users,
-	$songs
+    $playlistMemberships,
+    $playlists,
+    $settings,
+    $rootpaths,
+    $users,
+    $songs,
 ];

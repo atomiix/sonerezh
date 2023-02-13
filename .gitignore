@@ -9,6 +9,7 @@
 /dist
 /tags
 *.mo
+.php-cs-fixer.cache
 
 /webroot/img/thumbnails/
 /webroot/img/resized/

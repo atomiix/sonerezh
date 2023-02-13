@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use App\View\AjaxView;
@@ -44,31 +46,31 @@ class AppController extends Controller
     {
         parent::initialize();
 
-		$this->loadComponent('Authentication');
-		$this->loadComponent('Authorization.Authorization');
-		$this->loadComponent('Flash');
+        $this->loadComponent('Authentication');
+        $this->loadComponent('Authorization.Authorization');
+        $this->loadComponent('Flash');
         $this->loadComponent('FormProtection');
     }
 
-	public function isAuthorized($user): bool
-	{
-		return true;
-	}
+    public function isAuthorized($user): bool
+    {
+        return true;
+    }
 
-	public function viewClasses(): array
-	{
-		return [JsonView::class];
-	}
+    public function viewClasses(): array
+    {
+        return [JsonView::class];
+    }
 
-	public function beforeFilter(EventInterface $event)
-	{
-		$this->Authorization->authorize($this, $this->request->getParam('action'));
+    public function beforeFilter(EventInterface $event): void
+    {
+        $this->Authorization->authorize($this, $this->request->getParam('action'));
 
-		if ($this->request->is('ajax')) {
-			$this->viewBuilder()->setClassName(AjaxView::class);
-		} else if($this->Authentication->getIdentity()) {
-			$setting = $this->getTableLocator()->get('Settings')->find()->select(['sync_token'])->first();
-			$this->set('sync_token', $setting->sync_token);
-		}
-	}
+        if ($this->request->is('ajax')) {
+            $this->viewBuilder()->setClassName(AjaxView::class);
+        } elseif ($this->Authentication->getIdentity()) {
+            $setting = $this->getTableLocator()->get('Settings')->find()->select(['sync_token'])->first();
+            $this->set('sync_token', $setting->sync_token);
+        }
+    }
 }

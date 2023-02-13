@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Component;
 
 use Cake\Controller\Component;
@@ -11,7 +13,6 @@ use Cake\Controller\Component;
  */
 class SortComponent extends Component
 {
-
     /**
      * Sort an array of song by band name, album, disc and track number.
      * See /artists to visualize it.

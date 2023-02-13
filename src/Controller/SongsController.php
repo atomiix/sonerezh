@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\SongManager;
@@ -37,16 +39,15 @@ class SongsController extends AppController
         $settings = $this->getTableLocator()->get('Settings')->find()->contain('Rootpaths')->first();
 
         if ($this->request->is('get')) {
-
             if ($settings) {
                 $paths = $settings->rootpaths;
             } else {
                 $this->Flash->error(__('Please define a root path.'));
-                return $this->redirect(array('controller' => 'settings', 'action' => 'index'));
+                return $this->redirect(['controller' => 'settings', 'action' => 'index']);
             }
 
             // The files found via Folder->findRecursive()
-            $found = array();
+            $found = [];
 
             foreach ($paths as $path) {
                 $directory = new Folder($path['rootpath']);
@@ -57,12 +58,10 @@ class SongsController extends AppController
 
                     // Do not follow symlinks to avoid infinite loops
                     if (!is_link($subdirectory->path)) {
-
                         $found_in_this_directory = $subdirectory->find('^.*\.(mp3|ogg|flac|aac)$');
 
                         // The find method does not return absolute paths.
                         foreach ($found_in_this_directory as $file) {
-
                             // CakePHP adds a trailing slash when the path contains two dots in sequence
                             if (substr($subdirectory->path, -1) === '/') {
                                 $found[$subdirectory->path . $file] = filemtime($subdirectory->path . $file);
@@ -82,7 +81,7 @@ class SongsController extends AppController
             $to_remove = array_keys(array_diff_key($already_imported, $found));
 
             // Find what already imported files still on the filesystem that have been modified since import
-            $to_update = array();
+            $to_update = [];
             foreach (array_intersect_key($found, $already_imported) as $source_path => $value) {
                 if ($value > $already_imported[$source_path]->getTimestamp()) {
                     $to_update[] = $source_path;
@@ -99,16 +98,16 @@ class SongsController extends AppController
             $this->request->getSession()->write('to_remove', $to_remove);
             $this->set(compact('to_import_count', 'to_remove_count', 'to_update_count', 'already_imported_count'));
         } elseif ($this->request->is('post')) {
-			$this->viewBuilder()
-				->setClassName(JsonView::class)
-				->setOption('serialize', true);
-            $update_result = array();
+            $this->viewBuilder()
+                ->setClassName(JsonView::class)
+                ->setOption('serialize', true);
+            $update_result = [];
 
             if (Cache::read('import')) { // Read lock to avoid multiple import processes in the same time
                 $update_result[0]['status'] = 'ERR';
                 $update_result[0]['message'] = __('The import process is already running via another client or the CLI.');
                 $this->set(compact('update_result'));
-                $this->set('_serialize', array('update_result'));
+                $this->set('_serialize', ['update_result']);
             } else {
                 // Write lock
                 Cache::write('import', true);
@@ -116,9 +115,9 @@ class SongsController extends AppController
                 $to_import = $this->request->getSession()->read('to_import');
                 $to_update = $this->request->getSession()->read('to_update');
                 $to_remove = $this->request->getSession()->read('to_remove');
-                $imported = array();
-                $updated = array();
-                $removed = array();
+                $imported = [];
+                $updated = [];
+                $removed = [];
 
                 $i = 0;
                 foreach ($to_import as $file) {
@@ -153,8 +152,8 @@ class SongsController extends AppController
                     $parse_result = $song_manager->parseMetadata();
 
                     // Get the song id and enrich the array
-					$result = $this->Songs->find()->select(['id'])->where(['source_path' => $file])->first();
-					$this->Songs->patchEntity($result, $parse_result['data']);
+                    $result = $this->Songs->find()->select(['id'])->where(['source_path' => $file])->first();
+                    $this->Songs->patchEntity($result, $parse_result['data']);
 
                     if (!$this->Songs->save($result)) {
                         $update_result[$file]['status'] = 'ERR';
@@ -175,16 +174,16 @@ class SongsController extends AppController
                         break;
                     }
 
-					$query = $this->Songs->find();
-					$result = $query
-						->leftJoin(['Songs2' => 'Songs'], ['Songs2.cover = Songs.cover'])
-						->select([
-							'id' => $query->func()->max('Songs.id'),
-							'cover' => $query->func()->max('Songs.cover', ['string']),
-							'files_with_cover' => $query->func()->count('Songs2.id')
-						])
-						->where(['Songs.source_path' => $file])
-						->first();
+                    $query = $this->Songs->find();
+                    $result = $query
+                        ->leftJoin(['Songs2' => 'Songs'], ['Songs2.cover = Songs.cover'])
+                        ->select([
+                            'id' => $query->func()->max('Songs.id'),
+                            'cover' => $query->func()->max('Songs.cover', ['string']),
+                            'files_with_cover' => $query->func()->count('Songs2.id'),
+                        ])
+                        ->where(['Songs.source_path' => $file])
+                        ->first();
 
 
                     $update_result[$i]['file'] = $file;
@@ -233,32 +232,31 @@ class SongsController extends AppController
                 $this->request->getSession()->write('to_remove', $remaining_to_remove);
                 $this->set(compact('sync_token', 'update_result'));
             }
-
         }
     }
 
-    public function sync()
+    public function sync(): void
     {
         $this->loadComponent('Sort');
 
-		$songs = $this->Songs->find()->select(['id', 'album', 'artist', 'band', 'cover', 'title', 'disc', 'track_number', 'playtime'])->order('title')->toArray();
+        $songs = $this->Songs->find()->select(['id', 'album', 'artist', 'band', 'cover', 'title', 'disc', 'track_number', 'playtime'])->order('title')->toArray();
         $songs = $this->Sort->sortByBand($songs);
         foreach ($songs as $song) {
-			$song->url = Router::url(['controller' => 'songs', 'action' => 'download', $song->id]);
-			$song->cover = Asset::imageUrl(empty($song->cover) ? "no-cover.png" : THUMBNAILS_DIR . '/' . $song->cover);
+            $song->url = Router::url(['controller' => 'songs', 'action' => 'download', $song->id]);
+            $song->cover = Asset::imageUrl(empty($song->cover) ? "no-cover.png" : THUMBNAILS_DIR . '/' . $song->cover);
         }
 
         $this->set('data', $songs);
-		$this->viewBuilder()
-			->setClassName(JsonView::class)
-			->setOption('serialize', 'data');
+        $this->viewBuilder()
+            ->setClassName(JsonView::class)
+            ->setOption('serialize', 'data');
     }
 
     /**
      * The albums view function.
      * Find songs in the database, alphabetically and grouped by album.
      */
-    public function albums()
+    public function albums(): void
     {
         $sort = ['album' => 'asc'];
         $user_preferences = json_decode($this->Authentication->getIdentityData('preferences') ?? '', true);
@@ -267,76 +265,74 @@ class SongsController extends AppController
             $sort = ['band' => 'asc', 'album' => 'asc'];
         }
 
-		if ($this->request->getQuery('sort') === 'band') {
+        if ($this->request->getQuery('sort') === 'band') {
+            $sort = ['band' => 'asc', 'album' => 'asc'];
 
-			$sort = ['band' => 'asc', 'album' => 'asc'];
+            if (!isset($user_preferences['sort']) || $user_preferences['sort'] !== 'band') {
+                $user = $this->getTableLocator()->get('Users')->find()
+                    ->select(['id', 'preferences'])
+                    ->where(['id' => $this->Authentication->getIdentityData('id')])
+                    ->first();
 
-			if (!isset($user_preferences['sort']) || $user_preferences['sort'] !== 'band') {
-				$user = $this->getTableLocator()->get('Users')->find()
-					->select(['id', 'preferences'])
-					->where(['id' => $this->Authentication->getIdentityData('id')])
-					->first();
+                $new_preferences = json_decode($user->preferences, true);
+                $new_preferences['albums_sort'] = 'band';
+                $user->preferences = json_encode($new_preferences);
 
-				$new_preferences = json_decode($user->preferences, true);
-				$new_preferences['albums_sort'] = 'band';
-				$user->preferences = json_encode($new_preferences);
+                if ($this->getTableLocator()->get('Users')->save($user)) {
+                    $identity = $this->Authentication->getIdentity()->getOriginalData();
+                    $identity->preferences = $user->preferences;
+                    $this->Authentication->setIdentity($identity);
+                }
+            }
+        } elseif ($this->request->getQuery('sort') === 'album') {
+            $sort = ['album' => 'asc'];
 
-				if ($this->getTableLocator()->get('Users')->save($user)) {
-					$identity = $this->Authentication->getIdentity()->getOriginalData();
-					$identity->preferences = $user->preferences;
-					$this->Authentication->setIdentity($identity);
-				}
-			}
+            if (!isset($user_preferences['sort']) || $user_preferences['sort'] !== 'album') {
+                $user = $this->getTableLocator()->get('Users')->find()
+                    ->select(['id', 'preferences'])
+                    ->where(['id' => $this->Authentication->getIdentityData('id')])
+                    ->first();
 
-		} elseif ($this->request->getQuery('sort') === 'album') {
-			$sort = ['album' => 'asc'];
+                $new_preferences = json_decode($user->preferences ?? '', true);
+                unset($new_preferences['albums_sort']);
+                $user->preferences = json_encode($new_preferences);
 
-			if (!isset($user_preferences['sort']) || $user_preferences['sort'] !== 'album') {
-				$user = $this->getTableLocator()->get('Users')->find()
-					->select(['id', 'preferences'])
-					->where(['id' => $this->Authentication->getIdentityData('id')])
-					->first();
-
-				$new_preferences = json_decode($user->preferences ?? '', true);
-				unset($new_preferences['albums_sort']);
-				$user->preferences = json_encode($new_preferences);
-
-				if ($this->getTableLocator()->get('Users')->save($user)) {
-					$identity = $this->Authentication->getIdentity()->getOriginalData();
-					$identity->preferences = $user->preferences;
-					$this->Authentication->setIdentity($identity);
-				}
-			}
+                if ($this->getTableLocator()->get('Users')->save($user)) {
+                    $identity = $this->Authentication->getIdentity()->getOriginalData();
+                    $identity->preferences = $user->preferences;
+                    $this->Authentication->setIdentity($identity);
+                }
+            }
         }
 
         $playlists = $this->getTableLocator()->get('Playlists')->find('list')
-			->select(['id', 'title'])
-			->where(['user_id' => $this->Authentication->getIdentityData('id')])
-			->all();
+            ->select(['id', 'title'])
+            ->where(['user_id' => $this->Authentication->getIdentityData('id')])
+            ->all();
 
-        $latests = array();
+        $latests = [];
         // Is this the first page requested?
         $page = $this->request->getQuery('page', 1);
 
         if ($page == 1) {
-			$query = $this->Songs->find();
-			$latests = $query
-				->select(['band', 'album', 'cover' => $query->func()->min('cover', ['string'])])
-				->group(['album', 'band'])
-				->orderDesc($query->func()->max('created', ['date']))
-				->limit(6)
-				->all();
+            $query = $this->Songs->find();
+            $latests = $query
+                ->select(['band', 'album', 'cover' => $query->func()->min('cover', ['string'])])
+                ->group(['album', 'band'])
+                ->orderDesc($query->func()->max('created', ['date']))
+                ->limit(6)
+                ->all();
         }
 
-        $this->paginate = array(
-            'Songs' => array(
-				'allowedParameters' => [],
-                'fields' => array('band', 'album', 'cover' => $this->Songs->query()->func()->min('cover', ['string'])),
-                'group' => array('album', 'band'),
-				'order' => $sort,
-                'limit' => 36
-            )
-        );
+        $this->paginate = [
+            'Songs' => [
+                'allowedParameters' => [],
+                'fields' => ['band', 'album', 'cover' => $this->Songs->query()->func()->min('cover', ['string'])],
+                'group' => ['album', 'band'],
+                'order' => $sort,
+                'limit' => 36,
+            ],
+        ];
 
         $songs = $this->paginate($this->Songs);
 
@@ -359,19 +355,19 @@ class SongsController extends AppController
      * Get album content.
      * This function is called when you click on a cover from the albums view.
      */
-    public function album()
+    public function album(): void
     {
         $band = $this->request->getQuery('band');
         $album = $this->request->getQuery('album');
-		$songs = $this->Songs->find()
-			->select(['id', 'title', 'album', 'artist', 'band', 'playtime', 'track_number', 'year', 'disc'])
-			->where(['band' => $band, 'album' => $album])
-			->toArray();
+        $songs = $this->Songs->find()
+            ->select(['id', 'title', 'album', 'artist', 'band', 'playtime', 'track_number', 'year', 'disc'])
+            ->where(['band' => $band, 'album' => $album])
+            ->toArray();
 
         $this->loadComponent('Sort');
         $songs = $this->Sort->sortByDisc($songs);
 
-        $parsed = array();
+        $parsed = [];
         foreach ($songs as $song) {
             $currentDisc = 1;
             if (!empty($song->disc)) {
@@ -382,48 +378,48 @@ class SongsController extends AppController
             $parsed[$currentDisc][] = $song;
         }
 
-        $this->set(array('songs' => $parsed, 'band' => $band, 'album' => $album));
+        $this->set(['songs' => $parsed, 'band' => $band, 'album' => $album]);
     }
 
     /**
      * The artists view function.
      * Generate a list of 5 bands, in alphabetical order. This list is then read to find all the songs of each band, grouped by album and disc.
      */
-    public function artists()
+    public function artists(): void
     {
-		$playlists = $this->getTableLocator()->get('Playlists')->find('list')
-			->select(['id', 'title'])
-			->where(['user_id' => $this->Authentication->getIdentityData('id')])
-			->all();
+        $playlists = $this->getTableLocator()->get('Playlists')->find('list')
+            ->select(['id', 'title'])
+            ->where(['user_id' => $this->Authentication->getIdentityData('id')])
+            ->all();
 
         // Get 5 band names
-        $this->paginate = array(
-            'Songs' => array(
+        $this->paginate = [
+            'Songs' => [
                 'limit' => 5,
-                'fields' => array('band'),
-                'group' => array('band'),
-                'order' => array('band' => 'ASC')
-            )
-        );
+                'fields' => ['band'],
+                'group' => ['band'],
+                'order' => ['band' => 'ASC'],
+            ],
+        ];
 
         $bands = $this->paginate($this->Songs);
 
-        $band_list = array();
+        $band_list = [];
         foreach ($bands as $band) {
             $band_list[] = $band->band;
         }
 
         // Get songs from the previous band names
-		$songs = empty($band_list) ? [] : $this->Songs->find()
-			->select(['id', 'title', 'album', 'band', 'artist', 'cover', 'playtime', 'track_number', 'year', 'disc', 'genre'])
-			->where(['band IN' => $band_list])
-			->toArray();
+        $songs = empty($band_list) ? [] : $this->Songs->find()
+            ->select(['id', 'title', 'album', 'band', 'artist', 'cover', 'playtime', 'track_number', 'year', 'disc', 'genre'])
+            ->where(['band IN' => $band_list])
+            ->toArray();
 
         $this->loadComponent('Sort');
         $songs = $this->Sort->sortByBand($songs);
 
         // Then we can group the songs by band name, album and disc.
-        $parsed = array();
+        $parsed = [];
         foreach ($songs as $song) {
             $currentDisc = 1;
             if (!empty($song->disc)) {
@@ -432,15 +428,15 @@ class SongsController extends AppController
             }
 
             if (!isset($parsed[$song->band]['albums'][$song->album])) {
-                $parsed[$song->band]['albums'][$song->album] = array(
+                $parsed[$song->band]['albums'][$song->album] = [
                     'album' => $song->album,
                     'cover' => empty($song->cover) ? "no-cover.png" : THUMBNAILS_DIR . '/' . $song->cover,
                     'year' => $song->year,
-                    'genre' => array(),
-                );
+                    'genre' => [],
+                ];
             }
 
-            if (!in_array($song->genre, $parsed[$song->band]['albums'][$song->album]['genre'])) {
+            if (!in_array($song->genre, $parsed[$song->band]['albums'][$song->album]['genre'], true)) {
                 $parsed[$song->band]['albums'][$song->album]['genre'][] = $song->genre;
             }
 
@@ -456,42 +452,42 @@ class SongsController extends AppController
         if (empty($parsed)) {
             $this->Flash->info(__('Oops! The database is empty...'));
         }
-        $this->set(array('songs' => $parsed, 'playlists' => $playlists));
+        $this->set(['songs' => $parsed, 'playlists' => $playlists]);
     }
 
     /**
      * The index view function
      * Get songs from database, ordered by artist.
      */
-    public function index()
+    public function index(): void
     {
-		$playlists = $this->getTableLocator()->get('Playlists')->find('list')
-			->select(['id', 'title'])
-			->where(['user_id' => $this->Authentication->getIdentityData('id')])
-			->all();
+        $playlists = $this->getTableLocator()->get('Playlists')->find('list')
+            ->select(['id', 'title'])
+            ->where(['user_id' => $this->Authentication->getIdentityData('id')])
+            ->all();
 
         // Get 5 band names
-        $this->paginate = array(
-            'Songs' => array(
+        $this->paginate = [
+            'Songs' => [
                 'limit' => 5,
-                'fields' => array('band'),
-                'group' => array('band'),
-                'order' => array('band' => 'ASC')
-            )
-        );
+                'fields' => ['band'],
+                'group' => ['band'],
+                'order' => ['band' => 'ASC'],
+            ],
+        ];
 
         $bands = $this->paginate($this->Songs);
 
-        $band_list = array();
+        $band_list = [];
         foreach ($bands as $band) {
             $band_list[] = $band->band;
         }
 
         // Get songs from the previous band names
-		$songs = empty($band_list) ? [] : $this->Songs->find()
-			->select(['id', 'title', 'album', 'band', 'artist', 'cover', 'playtime', 'track_number', 'year', 'disc', 'genre'])
-			->where(['band IN' => $band_list])
-			->toArray();
+        $songs = empty($band_list) ? [] : $this->Songs->find()
+            ->select(['id', 'title', 'album', 'band', 'artist', 'cover', 'playtime', 'track_number', 'year', 'disc', 'genre'])
+            ->where(['band IN' => $band_list])
+            ->toArray();
 
         $this->loadComponent('Sort');
         $songs = $this->Sort->sortByBand($songs);
@@ -507,46 +503,45 @@ class SongsController extends AppController
      * Search view function
      * We just make a SQL request...
      */
-    public function search()
+    public function search(): void
     {
         $query = $this->request->getQuery('q', false);
 
         if ($query) {
-            $this->paginate = array(
-                'Songs' => array(
-                    'fields' => array('band'),
-                    'group' => array('band'),
+            $this->paginate = [
+                'Songs' => [
+                    'fields' => ['band'],
+                    'group' => ['band'],
                     'limit' => 5,
-                    'conditions' => array('OR' => array(
+                    'conditions' => ['OR' => [
                         'LOWER(Songs.title) like' => '%' . strtolower($query) . '%',
                         'LOWER(Songs.band) like' => '%' . strtolower($query) . '%',
                         'LOWER(Songs.artist) like' => '%' . strtolower($query) . '%',
-                        'LOWER(Songs.album) like' => '%' . strtolower($query) . '%'
-                    )
-                    )
-                )
-            );
+                        'LOWER(Songs.album) like' => '%' . strtolower($query) . '%',
+                    ],
+                    ],
+                ],
+            ];
 
             $bands = $this->paginate($this->Songs);
-            $band_list = array();
+            $band_list = [];
 
             foreach ($bands as $band) {
                 $band_list[] = $band->band;
             }
 
-			$songs = empty($band_list) ? [] : $this->Songs->find()
-				->select(['id', 'title', 'album', 'band', 'artist', 'cover', 'playtime', 'track_number', 'year', 'disc', 'genre'])
-				->where(['OR' => [
-					'LOWER(Songs.title) like' => '%' . strtolower($query) . '%',
-					'LOWER(Songs.artist) like' => '%' . strtolower($query) . '%',
-					'LOWER(Songs.album) like' => '%' . strtolower($query) . '%']
-				, 'band IN' => $band_list])
-				->toArray();
+            $songs = empty($band_list) ? [] : $this->Songs->find()
+                ->select(['id', 'title', 'album', 'band', 'artist', 'cover', 'playtime', 'track_number', 'year', 'disc', 'genre'])
+                ->where(['OR' => [
+                    'LOWER(Songs.title) like' => '%' . strtolower($query) . '%',
+                    'LOWER(Songs.artist) like' => '%' . strtolower($query) . '%',
+                    'LOWER(Songs.album) like' => '%' . strtolower($query) . '%'], 'band IN' => $band_list])
+                ->toArray();
 
             $this->loadComponent('Sort');
             $songs = $this->Sort->sortByBand($songs);
 
-            $parsed = array();
+            $parsed = [];
             foreach ($songs as $song) {
                 $currentDisc = 1;
                 if (!empty($song->disc)) {
@@ -555,15 +550,15 @@ class SongsController extends AppController
                 }
 
                 if (!isset($parsed[$song->band]['albums'][$song->album])) {
-                    $parsed[$song->band]['albums'][$song->album] = array(
+                    $parsed[$song->band]['albums'][$song->album] = [
                         'album' => $song->album,
                         'cover' => empty($song->cover) ? "no-cover.png" : THUMBNAILS_DIR . '/' . $song->cover,
                         'year' => $song->year,
-                        'genre' => array()
-                    );
+                        'genre' => [],
+                    ];
                 }
 
-                if (!in_array($song->genre, $parsed[$song->band]['albums'][$song->album]['genre'])) {
+                if (!in_array($song->genre, $parsed[$song->band]['albums'][$song->album]['genre'], true)) {
                     $parsed[$song->band]['albums'][$song->album]['genre'][] = $song->genre;
                 }
 
@@ -574,7 +569,6 @@ class SongsController extends AppController
                 }
 
                 $parsed[$song->band]['albums'][$song->album]['discs'][$currentDisc]['songs'][] = $song;
-
             }
 
             if (empty($parsed)) {
@@ -583,10 +577,10 @@ class SongsController extends AppController
             $this->set('songs', $parsed);
         }
 
-		$playlists = $this->getTableLocator()->get('Playlists')->find('list')
-			->select(['id', 'title'])
-			->where(['user_id' => $this->Authentication->getIdentityData('id')])
-			->all();
+        $playlists = $this->getTableLocator()->get('Playlists')->find('list')
+            ->select(['id', 'title'])
+            ->where(['user_id' => $this->Authentication->getIdentityData('id')])
+            ->all();
 
         $this->set(compact('query', 'playlists'));
     }
@@ -636,16 +630,15 @@ class SongsController extends AppController
                 }
 
                 setlocale(LC_CTYPE, $orig_locale);
-
             } elseif (empty($song->path)) {
                 $song->path = $song->source_path;
             }
 
-			$this->Songs->save($song);
+            $this->Songs->save($song);
         }
 
         // Symlink files whose name contains '..' to avoid CakePHP request error.
-        if (strpos($song->path, '..') !== false) {
+        if (str_contains($song->path, '..')) {
             $symlinkPath = TMP . md5($song->path) . '.' . substr(strrchr($song->path, "."), 1);
             if (!file_exists($symlinkPath)) {
                 symlink($song->path, $symlinkPath);
@@ -653,6 +646,6 @@ class SongsController extends AppController
             $song->path = $symlinkPath;
         }
 
-		return $this->response->withFile($song->path, array('download' => true))->withCache('-1 minute', '+2 hours');
+        return $this->response->withFile($song->path, ['download' => true])->withCache('-1 minute', '+2 hours');
     }
 }
